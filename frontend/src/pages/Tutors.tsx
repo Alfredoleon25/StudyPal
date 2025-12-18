@@ -60,7 +60,7 @@ export default function Tutors() {
 
   return (
     <div style={{ padding: 20 }}>
-      {/* <h1>Available Tutors</h1> */}
+      <h1>Available Tutors</h1>
       Showing tutors for: <strong>{user.subjects?.join(", ")}</strong>
       {tutors.length === 0 && <p>No tutors found.</p>}
       
