@@ -40,12 +40,15 @@ app.post("/users", async (req, res) => {
 app.get("/tutors", async (req, res) => {
   try {
     const { subject } = req.query;
+    const subjectArray = subject.split(',');
+    console.log("this are the subjects",subject)
     const tutors = await prisma.user.findMany({
       where: {
         role: "tutor",
-        // subjects: { has: subject },
+        subjects: { hasSome: subjectArray },
       },
     });
+    console.log("this is are the tutors that for these subjects",tutors)
     res.json(tutors);
   } catch (error) {
     console.error(error);
