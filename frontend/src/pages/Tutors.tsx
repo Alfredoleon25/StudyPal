@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
-// import Subjects from "./Subjects";
-// import Subjects from "./Subjects";
 
 export default function Tutors() {
   const [tutors, setTutors] = useState<any[]>([]);
