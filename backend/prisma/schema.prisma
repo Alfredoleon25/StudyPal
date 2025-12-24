@@ -19,6 +19,9 @@ model User {
     // Add relations
   sentRequests     Request[] @relation("LearnerRequests")
   receivedRequests Request[] @relation("TutorRequests")
+  chatsAsLearner   Chat[]    @relation("LearnerChats")
+  chatsAsTutor     Chat[]    @relation("TutorChats")
+  messages         Message[]
 
 }
 
@@ -34,7 +37,30 @@ model Request {
   learner   User     @relation("LearnerRequests", fields: [learnerId], references: [id])
   tutor     User     @relation("TutorRequests", fields: [tutorId], references: [id])
 }
+model Chat {
+  id        String    @id @default(uuid())
+  learnerId String
+  tutorId   String
+  subject   String
+  createdAt DateTime  @default(now())
+    
+  learner   User      @relation("LearnerChats", fields: [learnerId], references: [id])
+  tutor     User      @relation("TutorChats", fields: [tutorId], references: [id])
+  messages  Message[]
+  
+  @@unique([learnerId, tutorId, subject]) // Prevent duplicate chats
+}
 
+model Message {
+  id        String   @id @default(uuid())
+  chatId    String
+  senderId  String
+  content   String
+  createdAt DateTime @default(now())
+  
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
+}
 enum Role {
   learner
   tutor

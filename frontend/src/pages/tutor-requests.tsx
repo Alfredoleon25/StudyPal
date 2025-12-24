@@ -8,6 +8,11 @@ interface Request {
   subject: string;
   message: string;
   createdAt: string;
+  learner?: {
+    id: string;
+    name: string;
+  };
+
 }
 
 export default function TutorRequests() {

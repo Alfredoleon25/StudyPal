@@ -33,11 +33,18 @@
 // }
 
 // export default App
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route ,useParams} from "react-router-dom";
 import Role from "./pages/Role";
 //import Subjects from "./pages/Subjects";
 import Tutors from "./pages/Tutors";
 import TutorRequests from "./pages/tutor-requests"
+import ChatWindow from "./pages/chat/:chatId"
+import ChatList from "./pages/chats";
+
+function ChatWindowWrapper() {
+  const { chatId } = useParams();
+  return <ChatWindow chatId={chatId!} />;
+}
 
 function App() {
   return (
@@ -47,6 +54,8 @@ function App() {
         {/* <Route path="/subjects" element={<Subjects />} /> */}
         <Route path="/tutors" element={<Tutors />} />
         <Route path="/tutor-requests" element={< TutorRequests/>}/>
+        <Route path="/chat/:chatId" element={< ChatWindowWrapper/>}/>
+        <Route path="/chats" element={<ChatList/>}/>
       </Routes>
     </BrowserRouter>
   );
