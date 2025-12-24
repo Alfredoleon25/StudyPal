@@ -56,6 +56,7 @@ app.get("/tutors", async (req, res) => {
   }
 });
 
+
 /* -----------------------
    Create Help Request
 ------------------------ */
@@ -80,6 +81,14 @@ app.get("/requests/:tutorId", async (req, res) => {
     const { tutorId } = req.params; 
     const requests = await prisma.request.findMany({
       where: { tutorId },
+        include: {
+          learner: {
+            select: {
+              id: true,
+              name: true,
+            }
+        }
+      }
     });
     res.json(requests);
   } catch (error) {

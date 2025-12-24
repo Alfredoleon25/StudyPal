@@ -15,6 +15,11 @@ model User {
   role      Role
   subjects  String[] 
   createdAt DateTime @default(now())
+
+    // Add relations
+  sentRequests     Request[] @relation("LearnerRequests")
+  receivedRequests Request[] @relation("TutorRequests")
+
 }
 
 model Request {
@@ -24,6 +29,10 @@ model Request {
   subject   String
   message   String
   createdAt DateTime @default(now())
+
+    // Add relations
+  learner   User     @relation("LearnerRequests", fields: [learnerId], references: [id])
+  tutor     User     @relation("TutorRequests", fields: [tutorId], references: [id])
 }
 
 enum Role {

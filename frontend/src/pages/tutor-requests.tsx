@@ -23,8 +23,8 @@ export default function TutorRequests() {
     try {
 
       const response = await api(`/requests/${user.id}`);
-      const data = await response
-      setRequests(data);
+      setRequests(response);
+      console.log("This is the request",response)
     } catch (error) {
       console.error("Error fetching requests:", error);
       alert("Failed to load requests");
@@ -69,7 +69,7 @@ export default function TutorRequests() {
         Hello, <strong>{user.name}</strong>! Here are your pending requests.
       </p>
 
-      {requests.length === 0 && (
+      {requests.length === 0 && (   
         <div style={{
           padding: 40,
           textAlign: "center",
@@ -136,13 +136,14 @@ export default function TutorRequests() {
             color: "#999"
           }}>
             <span>
-              Learner ID: <code style={{ 
+              From: <code style={{ 
                 backgroundColor: "#f0f0f0",
                 padding: "2px 6px",
                 borderRadius: 3,
                 fontSize: 12
               }}>
-                {request.learnerId}
+                {/* {request.learnerId} */}
+                {request.learner?.name || "Unknown Learner"}
               </code>
             </span>
             <span>
