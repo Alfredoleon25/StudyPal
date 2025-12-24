@@ -35,7 +35,7 @@
 // export default App
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Role from "./pages/Role";
-import Subjects from "./pages/Subjects";
+//import Subjects from "./pages/Subjects";
 import Tutors from "./pages/Tutors";
 import TutorRequests from "./pages/tutor-requests"
 
@@ -44,7 +44,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Role />} />
-        <Route path="/subjects" element={<Subjects />} />
+        {/* <Route path="/subjects" element={<Subjects />} /> */}
         <Route path="/tutors" element={<Tutors />} />
         <Route path="/tutor-requests" element={< TutorRequests/>}/>
       </Routes>
