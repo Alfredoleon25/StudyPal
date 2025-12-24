@@ -47,7 +47,6 @@ export default function Registration() {
       // Save the entire user object to localStorage
       localStorage.setItem("user", JSON.stringify(user));
       
-      // Redirect based on role
       if (user.role === "learner") {
         window.location.href = "/tutors";
       } else if (user.role === "tutor") {
