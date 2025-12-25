@@ -33,8 +33,8 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
   const fetchMessages = async () => {
     try {
       const response = await api(`/chats/${chatId}/messages`);
-      const data = await response.json();
-      setMessages(data);
+      console.log(response)
+      setMessages(response);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -56,7 +56,7 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
         }),
       });
 
-      const message = await response.json();
+      const message = await response;
       setMessages([...messages, message]);
       setNewMessage("");
     } catch (error) {
@@ -82,22 +82,42 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
       <div style={{
         padding: 20,
         borderBottom: "1px solid #e0e0e0",
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        display: "flex",
+        alignItems: "center",
+        gap: 15
       }}>
         <button 
-          onClick={() => window.location.href = "/chats"}
+          onClick={() => window.location.href = "/tutors"}
           style={{
-            padding: "8px 16px",
-            marginBottom: 10,
+            padding: "10px 20px",
             cursor: "pointer",
-            border: "1px solid #ddd",
-            borderRadius: 4,
-            backgroundColor: "#fff"
+            border: "1px solid #4CAF50",
+            borderRadius: 8,
+            backgroundColor: "#fff",
+            color: "#4CAF50",
+            fontWeight: "bold",
+            fontSize: 14
           }}
         >
-          ← Back to Chats
+         Back to Tutors
         </button>
-        <h2 style={{ margin: 0 }}>Chat</h2>
+                <button 
+          onClick={() => window.location.href = "/chats"}
+          style={{
+            padding: "10px 20px",
+            cursor: "pointer",
+            border: "1px solid #4CAF50",
+            borderRadius: 8,
+            backgroundColor: "#fff",
+            color: "#4CAF50",
+            fontWeight: "bold",
+            fontSize: 14
+          }}
+        >
+           Go to Chats 
+        </button>
+        {/* <h2 style={{ margin: 0, fontSize: 20, color: "#4CAF50",}}>Chat</h2> */}
       </div>
 
       {/* Messages */}

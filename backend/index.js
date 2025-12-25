@@ -77,12 +77,12 @@ app.get("/tutors", async (req, res) => {
 ------------------------ */
 app.post("/requests", async (req, res) => {
   try {
-    const { learnerId, tutorId, subject, message } = req.body;
+    const { learnerId, tutorId, subject} = req.body;
     
     // Create the request
-    const request = await prisma.request.create({
-      data: { learnerId, tutorId, subject, message },
-    });
+    // const request = await prisma.request.create({
+    //   data: { learnerId, tutorId, subject},
+    // });
     
     // Check if chat already exists
     let chat = await prisma.chat.findUnique({
@@ -115,7 +115,7 @@ app.post("/requests", async (req, res) => {
       });
     }
     
-    res.json({ request, chatId: chat.id });
+    res.json({ chatId: chat.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create request" });

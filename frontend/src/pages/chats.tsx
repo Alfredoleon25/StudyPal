@@ -21,7 +21,7 @@ export default function ChatList() {
   const fetchChats = async () => {
     try {
       const response = await api(`/chats/${user.id}`);
-      const data = await response.json();
+      const data = await response;
       setChats(data);
     } catch (error) {
       console.error("Error fetching chats:", error);
