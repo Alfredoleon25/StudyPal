@@ -205,30 +205,32 @@ app.post("/chats/:chatId/messages", async (req, res) => {
 /* -----------------------
    Get Requests for Tutor
 // ------------------------ */
-app.get("/requests/:tutorId", async (req, res) => {
-  try {
-    const { senderId } = req.params; 
-    const requests = await prisma.message.findMany({
-      where: { senderId },
-        include: {
-          learner: {
-            select: {
-              name: true,
-            },
-          // messages:{
-          //   select:{
-          //     content: true,
-          //   }
-          // }
-        }
-      }
-    });
-    res.json(requests);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch requests" });
-  }
-});
+// app.get("/requests/:tutorId", async (req, res) => {
+//   try {
+//     const { tutorId } = req.params; 
+//     const requests = await prisma.chat.findMany({
+//       where: { tutorId },
+//         include: {
+//           learner: {
+//             select: {
+//               name: true,
+//             },
+          
+          
+//           messages:{
+//             select:{
+//               content: true,
+//             }
+//           }
+//         }
+//       }
+//     });
+//     res.json(requests);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to fetch requests" });
+//   }
+// });
 
 /* -----------------------
    Server Start

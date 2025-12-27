@@ -6,7 +6,7 @@ interface Request {
   learnerId: string;
   tutorId: string;
   subject: string;
-  message: string;
+  messages: Array<{ content: string; createdAt: string }>;
   createdAt: string;
   learner?: {
     id: string;
@@ -26,8 +26,7 @@ export default function TutorRequests() {
 
   const fetchRequests = async () => {
     try {
-
-      const response = await api(`/requests/${user.id}`);
+      const response = await api(`/chats/${user.id}`);
       setRequests(response);
       console.log("This is the request",response)
     } catch (error) {
@@ -37,7 +36,9 @@ export default function TutorRequests() {
       setLoading(false);
     }
   };
-
+  const openChat = (chatId: string) => {
+    window.location.href = `/chat/${chatId}`;
+  };
   if (loading) {
     return (
       <div style={{ 
@@ -56,7 +57,8 @@ export default function TutorRequests() {
       padding: 40,
       maxWidth: 800,
       margin: "0 auto",
-      fontFamily: "system-ui, -apple-system, sans-serif"
+      fontFamily: "system-ui, -apple-system, sans-serif",
+      
     }}>
       <h1 style={{ 
         fontSize: 32,
@@ -92,8 +94,11 @@ export default function TutorRequests() {
       )}
 
       {requests.map((request) => (
+        // const lastMessage = request.messages[0]
+
         <div
           key={request.id}
+          onClick={() => openChat(request.id)}
           style={{
             border: "1px solid #e0e0e0",
             padding: 20,
@@ -129,7 +134,8 @@ export default function TutorRequests() {
               lineHeight: 1.5,
               color: "#333"
             }}>
-              {request.message}
+              {request.messages[0].content}
+        {/* {lastMessage.content} */}
             </p>
           </div>
           
@@ -156,7 +162,8 @@ export default function TutorRequests() {
             </span>
           </div>
         </div>
-      ))}
+        
+   ))}
     </div>
   );
 }
