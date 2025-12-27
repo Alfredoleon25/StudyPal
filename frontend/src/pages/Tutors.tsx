@@ -24,14 +24,8 @@ export default function Tutors() {
   }, []);
 
   const requestHelp = async (tutorId: string) => {
-    // if (!message.trim()) {
-    //   return alert("Please enter a message");
-    // }
 
     try {
-      console.log("it's working fine")
-      console.log(user.subjects)
-      console.log(user)
       const response = await api("/requests", {
         method: "POST",
         headers: {
@@ -61,10 +55,10 @@ export default function Tutors() {
   return (
     <div style={{ padding: 20 }}>
       {/* <div>{user.name}</div> */}
-      <h1>Welcome {user.name}</h1>
+      <h1>Hi {user.name}</h1>
       Available tutors for: <strong>{user.subjects?.join(", ")}</strong>
       {tutors.length === 0 && <p>No tutors found.</p>}
-      
+  
       {tutors.map((tutor) => (
         <div
           key={tutor.id}

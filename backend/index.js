@@ -106,13 +106,13 @@ app.post("/requests", async (req, res) => {
       });
       
       // Create first message in the chat
-      await prisma.message.create({
-        data: {
-          chatId: chat.id,
-          senderId: learnerId,
-          content: message,
-        }
-      });
+      // await prisma.message.create({
+      //   data: {
+      //     chatId: chat.id,
+      //     senderId: learnerId,
+      //     content: message,
+      //   }
+      // });
     }
     
     res.json({ chatId: chat.id });
@@ -204,17 +204,22 @@ app.post("/chats/:chatId/messages", async (req, res) => {
 
 /* -----------------------
    Get Requests for Tutor
------------------------- */
+// ------------------------ */
 app.get("/requests/:tutorId", async (req, res) => {
   try {
     const { tutorId } = req.params; 
-    const requests = await prisma.request.findMany({
+    const requests = await prisma.chat.findMany({
       where: { tutorId },
         include: {
           learner: {
             select: {
               name: true,
-            }
+            },
+          // messages:{
+          //   select:{
+          //     content: true,
+          //   }
+          // }
         }
       }
     });

@@ -22,6 +22,7 @@ export default function ChatList() {
     try {
       const response = await api(`/chats/${user.id}`);
       const data = await response;
+      console.log("this is the response",data)
       setChats(data);
     } catch (error) {
       console.error("Error fetching chats:", error);
@@ -39,10 +40,31 @@ export default function ChatList() {
       margin: "0 auto",
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
-      <h1 style={{ fontSize: 32, marginBottom: 10 }}>My Chats</h1>
-      <p style={{ color: "#666", marginBottom: 30 }}>
+      <h1 style={{ color: "#666", marginBottom: 30 }}>
         Hello, <strong>{user.name}</strong>!
-      </p>
+      </h1>
+      <div style={{        padding: 20,
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        alignItems: "center",
+        gap: 120}}>
+      <h1 style={{ fontSize: 30, marginBottom: 10 }}>My Chats</h1>
+          <button 
+          onClick={() => window.location.href = "/tutors"}
+          style={{
+            // padding: "10px 20px",
+            cursor: "pointer",
+            border: "1px solid #4CAF50",
+            borderRadius: 8,
+            // backgroundColor: "#fff",
+            color: "#4CAF50",
+            fontWeight: "bold",
+            fontSize: 14
+          }}
+        >
+         Go to Tutors
+        </button>
+        </div>
 
       {chats.length === 0 && (
         <div style={{
@@ -61,7 +83,9 @@ export default function ChatList() {
       )}
 
       {chats.map((chat) => {
-        const otherUser = user.role === "learner" ? chat.tutor : chat.learner;
+        // const otherUser = user.role === "learner" ? chat.tutor : chat.learner;
+        // console.log("this is the name of the other user",otherUser.name)
+        const otherUser = chat.tutor
         const lastMessage = chat.messages[0];
 
         return (
@@ -89,7 +113,7 @@ export default function ChatList() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 18 }}>{otherUser.name}</h3>
+                <h3 style={{ margin: 0, fontSize: 18 ,  color: "black",}}>{otherUser.name}</h3>
                 <span style={{
                   backgroundColor: "#4CAF50",
                   color: "white",
