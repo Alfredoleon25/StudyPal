@@ -100,6 +100,7 @@ export default function TutorRequests() {
           key={request.id}
           onClick={() => openChat(request.id)}
           style={{
+            cursor: "pointer",
             border: "1px solid #e0e0e0",
             padding: 20,
             marginBottom: 20,
