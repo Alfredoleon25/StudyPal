@@ -207,9 +207,9 @@ app.post("/chats/:chatId/messages", async (req, res) => {
 // ------------------------ */
 app.get("/requests/:tutorId", async (req, res) => {
   try {
-    const { tutorId } = req.params; 
-    const requests = await prisma.chat.findMany({
-      where: { tutorId },
+    const { senderId } = req.params; 
+    const requests = await prisma.message.findMany({
+      where: { senderId },
         include: {
           learner: {
             select: {
