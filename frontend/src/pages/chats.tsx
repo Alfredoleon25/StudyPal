@@ -40,18 +40,20 @@ export default function ChatList() {
       margin: "0 auto",
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
-      <h1 style={{ color: "#666", marginBottom: 30 }}>
-        Hello, <strong>{user.name}</strong>!
+      <h1 style={{ color: "#666", marginBottom: 20 }}>
+       <strong>My chats</strong>!
       </h1>
       <div style={{        padding: 20,
         borderBottom: "1px solid #e0e0e0",
         display: "flex",
         alignItems: "center",
-        gap: 120}}>
-      <h1 style={{ fontSize: 30, marginBottom: 10 }}>My Chats</h1>
+        // justifyContent: "flex-end",
+        gap: 120
+        }}>
           <button 
           onClick={() => window.location.href = "/tutors"}
           style={{
+            justifyContent: "flex-end",
             // padding: "10px 20px",
             cursor: "pointer",
             border: "1px solid #4CAF50",
@@ -64,6 +66,7 @@ export default function ChatList() {
         >
          Go to Tutors
         </button>
+        <div style={{padding:20}}>Current Mode:{user.role}</div>
         </div>
 
       {chats.length === 0 && (

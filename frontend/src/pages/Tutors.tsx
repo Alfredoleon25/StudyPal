@@ -55,10 +55,12 @@ export default function Tutors() {
   return (
     <div style={{ padding: 20 }}>
       {/* <div>{user.name}</div> */}
+
       <h1>Hi {user.name}</h1>
+      <div style={{padding:"5px, 100px",marginBottom: 20}}>
       Available tutors for: <strong>{user.subjects?.join(", ")}</strong>
       {tutors.length === 0 && <p>No tutors found.</p>}
-  
+      </div>
       {tutors.map((tutor) => (
         <div
           key={tutor.id}
@@ -71,32 +73,6 @@ export default function Tutors() {
         >
           <p><strong>{tutor.name}</strong></p>
           <p>Subjects: {tutor.subjects.join(", ")}</p>
-          
-          {/* {selectedTutor === tutor.id ? (
-            <div style={{ marginTop: 10 }}>
-              <textarea
-                placeholder="What do you need help with?"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                rows={3}
-                style={{ width: "100%", marginBottom: 5 }}
-              />
-              <div>
-                <button onClick={() => requestHelp(tutor.id)}>
-                  Send Request
-                </button>
-                <button 
-                  onClick={() => {
-                    setSelectedTutor(null);
-                    setMessage("");
-                  }}
-                  style={{ marginLeft: 5 }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : ( */}
             <button onClick={() => requestHelp(tutor.id)}>
               Request Help
             </button>

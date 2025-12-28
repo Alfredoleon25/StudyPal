@@ -46,6 +46,7 @@ export default function Registration() {
       
       // Save the entire user object to localStorage
       localStorage.setItem("user", JSON.stringify(user));
+      console.log(user)
       
       if (user.role === "learner") {
         window.location.href = "/tutors";

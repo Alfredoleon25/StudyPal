@@ -79,8 +79,7 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
       {/* Header */}
-      
-      <div style={{
+            <div style={{
         padding: 20,
         borderBottom: "1px solid #e0e0e0",
         backgroundColor: "#fff",
@@ -89,7 +88,8 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
         gap: 15
       }}>
 
-        {user.role === "learner" && (
+        {user.role === "learner"?(
+          <>
         <button 
           onClick={() => window.location.href = "/tutors"}
           style={{
@@ -104,8 +104,8 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
           }}
         >
          Back to Tutors
-        </button>)}
-        {user.role === "learner" && (
+        </button>
+
         <button 
           onClick={() => window.location.href = "/chats"}
           style={{
@@ -120,8 +120,10 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
           }}
         >
            Go to Chats 
-        </button>)}
-        {user.role === "tutor" && (
+        </button>
+        </>
+      ):(
+
         <button 
           onClick={() => window.location.href = "/tutor-requests"}
           style={{
@@ -138,7 +140,6 @@ export default function ChatWindow({ chatId }: { chatId: string }) {
            Go to your requests
         </button>)}
       </div>
-      
 
       {/* Messages */}
       <div style={{
