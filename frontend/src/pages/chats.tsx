@@ -66,8 +66,9 @@ export default function ChatList() {
         >
          Go to Tutors
         </button>
-        <div style={{padding:20}}>Current Mode:{user.role}</div>
-                  <button 
+        {/* <div style={{padding:20}}>Current Mode:{user.role}</div> */}
+        {user.role === "learner" &&(
+        <button 
           onClick={() => window.location.href = "/tutors"}
           style={{
             justifyContent: "flex-end",
@@ -81,8 +82,25 @@ export default function ChatList() {
             fontSize: 14
           }}
         >
-         Change Modes 
-        </button>
+         Change to Tutor
+        </button>)}
+                {user.role === "tutor" &&(
+        <button 
+          onClick={() => window.location.href = "/tutors"}
+          style={{
+            justifyContent: "flex-end",
+            // padding: "10px 20px",
+            cursor: "pointer",
+            border: "1px solid #4CAF50",
+            borderRadius: 8,
+            // backgroundColor: "#fff",
+            color: "#4CAF50",
+            fontWeight: "bold",
+            fontSize: 14
+          }}
+        >
+         Change to Learner
+        </button>)}
         </div>
 
       {chats.length === 0 && (

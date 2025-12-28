@@ -9,26 +9,19 @@ export default function Registration() {
   const [role, setRole] = useState<"learner" | "tutor" | null>(null);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 
-  const toggleSubject = (subject: string) => {
-    setSelectedSubjects((prev) =>
-      prev.includes(subject)
-        ? prev.filter((s) => s !== subject)
-        : [...prev, subject]
-    );
-  };
+  // const toggleSubject = (subject: string) => {
+  //   setSelectedSubjects((prev) =>
+  //     prev.includes(subject)
+  //       ? prev.filter((s) => s !== subject)
+  //       : [...prev, subject]
+  //   );
+  // };
 
-  const handleRoleSelection = (selectedRole: "learner" | "tutor") => {
+  const handleRoleSelection = async (selectedRole: "learner" | "tutor") => {
     if (!name) return alert("Enter your name");
     setRole(selectedRole);
     setStep(2);
-  };
-
-  const createUser = async () => {
-    if (selectedSubjects.length === 0) {
-      return alert("Select at least one subject");
-    }
-
-    try {
+        try {
       const user = await api("/users", {
         method: "POST",
         headers: {
@@ -47,22 +40,58 @@ export default function Registration() {
       // Save the entire user object to localStorage
       localStorage.setItem("user", JSON.stringify(user));
       console.log(user)
-      
-      if (user.role === "learner") {
-        window.location.href = "/tutors";
-      } else if (user.role === "tutor") {
-        window.location.href = "/tutor-requests";
-      }
+      window.location.href = "/subjects"
+      // if (user.role === "learner") {
+      //   window.location.href = "/tutors";
+      // } else if (user.role === "tutor") {
+      //   window.location.href = "/tutor-requests";
+      // }
     } catch (error: any) {
       console.error("Error creating user:", error);
       alert(error.message || "Failed to create user");
     }
   };
 
+  // const createUser = async () => {
+    // if (selectedSubjects.length === 0) {
+    //   return alert("Select at least one subject");
+    // }
+
+    // try {
+    //   const user = await api("/users", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ 
+    //       name, 
+    //       role, 
+    //       subjects: selectedSubjects 
+    //     }),
+    //   });
+
+   
+    //   console.log("User created:", user);
+      
+    //   // Save the entire user object to localStorage
+    //   localStorage.setItem("user", JSON.stringify(user));
+    //   console.log(user)
+    //   window.location.href === "/subjects"
+    //   // if (user.role === "learner") {
+    //   //   window.location.href = "/tutors";
+    //   // } else if (user.role === "tutor") {
+    //   //   window.location.href = "/tutor-requests";
+    //   // }
+    // } catch (error: any) {
+    //   console.error("Error creating user:", error);
+    //   alert(error.message || "Failed to create user");
+    // }
+  // };
+
   return (
     <div style={{ padding: 20 }}>
-      {step === 1 ? (
-        <>
+      {/* {step === 1 ? (
+        <> */}
           <h1>Enter Your Name</h1>
           <input
             placeholder="Name"
@@ -77,7 +106,7 @@ export default function Registration() {
               Tutor
             </button>
           </div>
-        </>
+        {/* </>
       ) : (
         <>
           <h1>Select Subjects</h1>
@@ -98,7 +127,7 @@ export default function Registration() {
             </button>
           </div>
         </>
-      )}
+      )} */}
     </div>
   );
 }

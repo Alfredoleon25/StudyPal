@@ -60,22 +60,32 @@ export default function TutorRequests() {
       fontFamily: "system-ui, -apple-system, sans-serif",
       
     }}>
+      <div style={{ marginBottom: 30, gap:50,display: "flex",}}>
       <h1 style={{ 
         fontSize: 32,
         marginBottom: 10,
-        color: "#333"
+        color: "#ded1d1ff"
       }}>
         My Help Requests
       </h1>
       
-      <p style={{ 
-        fontSize: 16, 
-        color: "#666",
-        marginBottom: 30
-      }}>
-        Hello, <strong>{user.name}</strong>! Here are your pending requests.
-      </p>
-
+              <button 
+          onClick={() => window.location.href = "/tutors"}
+          style={{
+            justifyContent: "flex-end",
+            // padding: "10px 20px",
+            cursor: "pointer",
+            border: "1px solid #4CAF50",
+            borderRadius: 10,
+            // backgroundColor: "#fff",
+            color: "#4CAF50",
+            fontWeight: "bold",
+            fontSize: 14
+          }}
+        >
+         Change to Learner
+        </button>
+       </div>
       {requests.length === 0 && (   
         <div style={{
           padding: 40,

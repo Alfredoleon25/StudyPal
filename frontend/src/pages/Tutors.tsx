@@ -35,7 +35,6 @@ export default function Tutors() {
           learnerId: user.id,
           tutorId,
           subject: user.subjects[0],
-          // message: message,
         }),
       });
 
