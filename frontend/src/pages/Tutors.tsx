@@ -3,8 +3,6 @@ import { api } from "../services/api";
 
 export default function Tutors() {
   const [tutors, setTutors] = useState<any[]>([]);
-  const [message, setMessage] = useState("");
-  const [selectedTutor, setSelectedTutor] = useState<string | null>(null);
   const user = JSON.parse(localStorage.getItem("user")!);
 
   useEffect(() => {
@@ -37,12 +35,6 @@ export default function Tutors() {
           subject: user.subjects[0],
         }),
       });
-
-      console.log(response)
-      // alert("Request sent!");
-      // setMessage("");
-      // setSelectedTutor(null);
-      // Redirect to the new chat
       window.location.href = `/chat/${response.chatId}`;
 
     } catch (error) {
@@ -53,11 +45,19 @@ export default function Tutors() {
 
   return (
     <div style={{ padding: 20 }}>
-      {/* <div>{user.name}</div> */}
-
       <h1>Hi {user.name}</h1>
       <div style={{padding:"5px, 100px",marginBottom: 20}}>
       Available tutors for: <strong>{user.subjects?.join(", ")}</strong>
+              <button
+          onClick={() => window.location.href = "/edit-subjects"}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#fff",
+            color: "#4CAF50",
+          }}
+        >
+          Edit Subjects
+        </button>
       {tutors.length === 0 && <p>No tutors found.</p>}
       </div>
       {tutors.map((tutor) => (

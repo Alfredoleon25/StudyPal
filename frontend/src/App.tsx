@@ -40,6 +40,7 @@ import Tutors from "./pages/Tutors";
 import TutorRequests from "./pages/tutor-requests"
 import ChatWindow from "./pages/chat/:chatId"
 import ChatList from "./pages/chats";
+import EditSubjects from "./pages/EditSubjects";
 
 function ChatWindowWrapper() {
   const { chatId } = useParams();
@@ -50,6 +51,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+         <Route path="/edit-subjects" element={<EditSubjects />} />
         <Route path="/" element={<Role />} />
         <Route path="/subjects" element={<Subjects />} />
         <Route path="/tutors" element={<Tutors />} />

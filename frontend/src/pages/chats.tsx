@@ -67,7 +67,7 @@ export default function ChatList() {
          Go to Tutors
         </button>
         {/* <div style={{padding:20}}>Current Mode:{user.role}</div> */}
-        {user.role === "learner" &&(
+        {/* {user.role === "learner" &&(
         <button 
           onClick={() => window.location.href = "/subjects"}
           style={{
@@ -83,23 +83,6 @@ export default function ChatList() {
           }}
         >
          Change to Tutor
-        </button>)}
-                {/* {user.role === "tutor" &&(
-        <button 
-          onClick={() => window.location.href = "/subjects"}
-          style={{
-            justifyContent: "flex-end",
-            // padding: "10px 20px",
-            cursor: "pointer",
-            border: "1px solid #4CAF50",
-            borderRadius: 8,
-            // backgroundColor: "#fff",
-            color: "#4CAF50",
-            fontWeight: "bold",
-            fontSize: 14
-          }}
-        >
-         Change to Learner
         </button>)} */}
         </div>
 
@@ -120,8 +103,6 @@ export default function ChatList() {
       )}
 
       {chats.map((chat) => {
-        // const otherUser = user.role === "learner" ? chat.tutor : chat.learner;
-        // console.log("this is the name of the other user",otherUser.name)
         const otherUser = chat.tutor
         const lastMessage = chat.messages[0];
 

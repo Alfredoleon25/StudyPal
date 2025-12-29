@@ -68,8 +68,7 @@ export default function TutorRequests() {
       }}>
         My Help Requests
       </h1>
-      
-              <button 
+              {/* <button 
           onClick={() => window.location.href = "/subjects"}
           style={{
             justifyContent: "flex-end",
@@ -84,7 +83,7 @@ export default function TutorRequests() {
           }}
         >
          Change to Learner
-        </button>
+        </button> */}
        </div>
       {requests.length === 0 && (   
         <div style={{

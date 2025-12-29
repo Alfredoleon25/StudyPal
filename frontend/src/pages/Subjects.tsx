@@ -1,10 +1,11 @@
 import { useState,useEffect } from "react";
 import { api } from "../services/api";
 
-const SUBJECTS = ["Calculus", "Physics", "Programming"];
+
+const SUBJECTS = ["Calculus", "Physics", "Programming","Music","Theater"];
 
 export default function Subjects() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selectedSubjects, setSelected] = useState<string[]>([]);
   const [tempUser, setTempUser] = useState<{ name: string; role: string } | null>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Subjects() {
     );
   };
     const createUser = async () => {
-    if (selected.length === 0) {
+    if (selectedSubjects.length === 0) {
       return alert("Select at least one subject");
     }
 
@@ -41,7 +42,7 @@ export default function Subjects() {
         body: JSON.stringify({
           name: tempUser.name,
           role: tempUser.role,
-          subjects: selected,
+          subjects: selectedSubjects,
         }),
       });
       console.log("User created:", user);
@@ -67,22 +68,6 @@ export default function Subjects() {
   if (!tempUser) {
     return <div style={{ padding: 20 }}>Loading...</div>;
   }
-
-
-  // const saveSubjects = async () => {
-  //   const user = JSON.parse(localStorage.getItem("user")!);
-  //   console.log(user)
-  //   if (selected.length === 0) return alert("Select at least one subject");
-  //   const users = await api("/users", {
-  //     method: "POST",
-  //     body: JSON.stringify({ ...user, subjects: selected }),
-  //   });
-  //   console.log(users)
-  //   localStorage.setItem("user", JSON.stringify({ ...user, subjects: selected }));
-    
-  //   window.location.href = "/tutors";
-  // };
-
   return (
     <div style={{ padding: 20 }}>
       <h1>Select Subjects</h1>
@@ -90,12 +75,20 @@ export default function Subjects() {
         <div key={subject}>
           <input
             type="checkbox"
-            checked={selected.includes(subject)}
+            checked={selectedSubjects.includes(subject)}
             onChange={() => toggleSubject(subject)}
           />
           <label>{subject}</label>
         </div>
       ))}
+      <button
+          onClick={() => window.location.href = "/"}
+          style={{
+              marginTop:10
+          }}
+        >
+          Back
+        </button>
       <button onClick={createUser} style={{ marginTop: 10 }}>
         Continue
       </button>
