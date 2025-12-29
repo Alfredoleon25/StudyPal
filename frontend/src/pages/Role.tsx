@@ -19,28 +19,12 @@ export default function Registration() {
 
   const handleRoleSelection = async (selectedRole: "learner" | "tutor") => {
     if (!name) return alert("Enter your name");
-    setRole(selectedRole);
-    setStep(2);
         try {
-      const user = await api("/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ 
-          name, 
-          role, 
-          subjects: selectedSubjects 
-        }),
-      });
-
-   
-      console.log("User created:", user);
       
       // Save the entire user object to localStorage
-      localStorage.setItem("user", JSON.stringify(user));
-      console.log(user)
-      window.location.href = "/subjects"
+      localStorage.setItem("tempuser", JSON.stringify({name,role:selectedRole}));
+      if (selectedRole){
+      window.location.href = "/subjects"}
       // if (user.role === "learner") {
       //   window.location.href = "/tutors";
       // } else if (user.role === "tutor") {
