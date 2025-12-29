@@ -21,11 +21,10 @@ app.use(express.json());
    Create User
 ------------------------ */
 app.post("/users", async (req, res) => {
-
   try {
-    const { name, role, subjects} = req.body;
+    const { name, subjects } = req.body;
     const user = await prisma.user.create({
-      data: { name, role, subjects},
+      data: { name, subjects },
     });
     res.json(user);
   } catch (error) {
@@ -33,28 +32,66 @@ app.post("/users", async (req, res) => {
     res.status(500).json({ error: "Failed to create user" });
   }
 });
+// app.post("/users", async (req, res) => {
+
+//   try {
+//     const { name, role, subjects} = req.body;
+//     const user = await prisma.user.create({
+//       data: { name, role, subjects},
+//     });
+//     res.json(user);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to create user" });
+//   }
+// });
 
 /* -----------------------
    Get Tutors by Subject
 ------------------------ */
 app.get("/tutors", async (req, res) => {
   try {
-    const { subject } = req.query;
-    console.log("this is the subject",subject)
-    const subjectArray = subject.split(',');
-    const tutors = await prisma.user.findMany({
-      where: {
-        role: "tutor",
-        subjects: { hasSome: subjectArray },
-      },
-    });
-    console.log("this is are the tutors that for these subjects",tutors)
-    res.json(tutors);
+    const { subjects } = req.query;
+    
+    if (subjects) {
+      const subjectArray = subjects.split(',');
+      console.log("Filtering tutors for subjects:", subjectArray);
+      
+      const tutors = await prisma.user.findMany({
+        where: {
+          subjects: { hasSome: subjectArray },
+        },
+      });
+      
+      console.log("Found tutors:", tutors.length);
+      res.json(tutors);
+    } else {
+      const tutors = await prisma.user.findMany();
+      res.json(tutors);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch tutors" });
   }
 });
+// app.get("/tutors", async (req, res) => {
+//   try {
+//     const { subject } = req.query;
+//     console.log("this is the subject",subject)
+//     const subjectArray = subject.split(',');
+//     const tutors = await prisma.user.findMany({
+//       where: {
+//         role: "tutor",
+//         subjects: { hasSome: subjectArray },
+//       },
+//     });
+//     console.log("this is are the tutors that for these subjects",tutors)
+//     res.json(tutors);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to fetch tutors" });
+//   }
+// });
 /* -----------------------
    Update User Subjects
 ------------------------ */

@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -12,17 +10,14 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   name      String
-  role      Role
   subjects  String[] 
   createdAt DateTime @default(now())
-
-    // Add relations
+  
   sentRequests     Request[] @relation("LearnerRequests")
   receivedRequests Request[] @relation("TutorRequests")
   chatsAsLearner   Chat[]    @relation("LearnerChats")
   chatsAsTutor     Chat[]    @relation("TutorChats")
   messages         Message[]
-
 }
 
 model Request {
@@ -32,23 +27,23 @@ model Request {
   subject   String
   message   String
   createdAt DateTime @default(now())
-
-    // Add relations
+  
   learner   User     @relation("LearnerRequests", fields: [learnerId], references: [id])
   tutor     User     @relation("TutorRequests", fields: [tutorId], references: [id])
 }
+
 model Chat {
   id        String    @id @default(uuid())
   learnerId String
   tutorId   String
   subject   String
   createdAt DateTime  @default(now())
-    
+  
   learner   User      @relation("LearnerChats", fields: [learnerId], references: [id])
   tutor     User      @relation("TutorChats", fields: [tutorId], references: [id])
   messages  Message[]
   
-  @@unique([learnerId, tutorId, subject]) // Prevent duplicate chats
+  @@unique([learnerId, tutorId, subject])
 }
 
 model Message {
@@ -60,8 +55,4 @@ model Message {
   
   chat      Chat     @relation(fields: [chatId], references: [id])
   sender    User     @relation(fields: [senderId], references: [id])
-}
-enum Role {
-  learner
-  tutor
 }
