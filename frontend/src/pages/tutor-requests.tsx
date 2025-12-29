@@ -70,7 +70,7 @@ export default function TutorRequests() {
       </h1>
       
               <button 
-          onClick={() => window.location.href = "/tutors"}
+          onClick={() => window.location.href = "/subjects"}
           style={{
             justifyContent: "flex-end",
             // padding: "10px 20px",

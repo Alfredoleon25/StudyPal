@@ -69,7 +69,7 @@ export default function ChatList() {
         {/* <div style={{padding:20}}>Current Mode:{user.role}</div> */}
         {user.role === "learner" &&(
         <button 
-          onClick={() => window.location.href = "/tutors"}
+          onClick={() => window.location.href = "/subjects"}
           style={{
             justifyContent: "flex-end",
             // padding: "10px 20px",
@@ -84,9 +84,9 @@ export default function ChatList() {
         >
          Change to Tutor
         </button>)}
-                {user.role === "tutor" &&(
+                {/* {user.role === "tutor" &&(
         <button 
-          onClick={() => window.location.href = "/tutors"}
+          onClick={() => window.location.href = "/subjects"}
           style={{
             justifyContent: "flex-end",
             // padding: "10px 20px",
@@ -100,7 +100,7 @@ export default function ChatList() {
           }}
         >
          Change to Learner
-        </button>)}
+        </button>)} */}
         </div>
 
       {chats.length === 0 && (
