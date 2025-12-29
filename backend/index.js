@@ -55,7 +55,25 @@ app.get("/tutors", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch tutors" });
   }
 });
-
+/* -----------------------
+   Update User Subjects
+------------------------ */
+app.patch("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subjects } = req.body;
+    
+    const user = await prisma.user.update({
+      where: { id },
+      data: { subjects },
+    });
+    
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
 
 /* -----------------------
    Create Help Request

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
-const SUBJECTS = ["Calculus", "Physics", "Programming"];
+const SUBJECTS = ["Calculus", "Physics", "Programming","Music","Theater","biology","Quemestry"];
 
 export default function EditSubjects() {
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
@@ -43,7 +43,7 @@ export default function EditSubjects() {
         body: JSON.stringify({ subjects: selectedSubjects }),
       });
 
-      const updatedUser = await response.json();
+      const updatedUser = await response;
       console.log("User updated:", updatedUser);
 
       // Update localStorage
