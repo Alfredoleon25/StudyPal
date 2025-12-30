@@ -6,16 +6,15 @@ interface Request {
   learnerId: string;
   tutorId: string;
   subject: string;
-  messages: Array<{ content: string; createdAt: string }>;
+  messages: Array<{ id:string; content: string; createdAt: string }>;
   createdAt: string;
-  learner?: {
+  tutor?: {
     id: string;
     name: string;
   };
-
 }
 
-export default function TutorRequests() {
+export default function LearnerRequests() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -26,9 +25,10 @@ export default function TutorRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await api(`/chats/${user.id}`);
-      setRequests(response);
-      console.log("This is the request",response)
+      const response = await api(`/requests/learner/${user.id}`);
+      const data = await response;
+      console.log(data)
+      setRequests(data);
     } catch (error) {
       console.error("Error fetching requests:", error);
       alert("Failed to load requests");
@@ -36,9 +36,7 @@ export default function TutorRequests() {
       setLoading(false);
     }
   };
-  const openChat = (chatId: string) => {
-    window.location.href = `/chat/${chatId}`;
-  };
+
   if (loading) {
     return (
       <div style={{ 
@@ -57,35 +55,25 @@ export default function TutorRequests() {
       padding: 40,
       maxWidth: 800,
       margin: "0 auto",
-      fontFamily: "system-ui, -apple-system, sans-serif",
-      
+      fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
-      <div style={{ marginBottom: 30, gap:50,display: "flex",}}>
       <h1 style={{ 
         fontSize: 32,
         marginBottom: 10,
-        color: "#ded1d1ff"
+        color: "#333"
       }}>
-        My Help Requests
+        My Sent Requests
       </h1>
-              {/* <button 
-          onClick={() => window.location.href = "/subjects"}
-          style={{
-            justifyContent: "flex-end",
-            // padding: "10px 20px",
-            cursor: "pointer",
-            border: "1px solid #4CAF50",
-            borderRadius: 10,
-            // backgroundColor: "#fff",
-            color: "#4CAF50",
-            fontWeight: "bold",
-            fontSize: 14
-          }}
-        >
-         Change to Learner
-        </button> */}
-       </div>
-      {requests.length === 0 && (   
+      
+      <p style={{ 
+        fontSize: 16, 
+        color: "#666",
+        marginBottom: 30
+      }}>
+        Hello, <strong>{user.name}</strong>! Here are the help requests you've sent.
+      </p>
+
+      {requests.length === 0 && (
         <div style={{
           padding: 40,
           textAlign: "center",
@@ -94,22 +82,18 @@ export default function TutorRequests() {
           color: "#666"
         }}>
           <p style={{ fontSize: 18, marginBottom: 10 }}>
-            📚 No requests yet
+            📝 No requests sent yet
           </p>
           <p style={{ fontSize: 14 }}>
-            Learners will see you when they browse tutors for: <strong>{user.subjects?.join(", ")}</strong>
+            Go to <a href="/tutors" style={{ color: "#4CAF50" }}>Find Tutors</a> to request help
           </p>
         </div>
       )}
 
       {requests.map((request) => (
-        // const lastMessage = request.messages[0]
-
         <div
           key={request.id}
-          onClick={() => openChat(request.id)}
           style={{
-            cursor: "pointer",
             border: "1px solid #e0e0e0",
             padding: 20,
             marginBottom: 20,
@@ -120,7 +104,7 @@ export default function TutorRequests() {
         >
           <div style={{ marginBottom: 12 }}>
             <span style={{ 
-              backgroundColor: "#4CAF50", 
+              backgroundColor: "#2196F3", 
               color: "white", 
               padding: "4px 12px", 
               borderRadius: 4,
@@ -136,7 +120,7 @@ export default function TutorRequests() {
             backgroundColor: "#f9f9f9",
             borderRadius: 6,
             marginBottom: 12,
-            borderLeft: "3px solid #4CAF50"
+            borderLeft: "3px solid #2196F3"
           }}>
             <p style={{ 
               margin: 0,
@@ -144,8 +128,7 @@ export default function TutorRequests() {
               lineHeight: 1.5,
               color: "#333"
             }}>
-              {request.messages[0].content}
-        {/* {lastMessage.content} */}
+              {request.messages[0]?.content}
             </p>
           </div>
           
@@ -157,23 +140,19 @@ export default function TutorRequests() {
             color: "#999"
           }}>
             <span>
-              From: <code style={{ 
-                backgroundColor: "#f0f0f0",
-                padding: "2px 6px",
-                borderRadius: 3,
-                fontSize: 12
+              Sent to: <strong style={{ 
+                color: "#4CAF50",
+                fontSize: 14
               }}>
-                {/* {request.learnerId} */}
-                {request.learner?.name || "Unknown Learner"}
-              </code>
+                {request.tutor?.name || "Unknown Tutor"}
+              </strong>
             </span>
             <span>
               {new Date(request.createdAt).toLocaleString()}
             </span>
           </div>
         </div>
-        
-   ))}
+      ))}
     </div>
   );
 }

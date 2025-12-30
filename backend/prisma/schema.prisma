@@ -10,26 +10,13 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   name      String
-  subjects  String[] 
   createdAt DateTime @default(now())
-  
-  sentRequests     Request[] @relation("LearnerRequests")
-  receivedRequests Request[] @relation("TutorRequests")
+
+  learnSubjects   String[] // Subjects I want to learn
+  teachSubjects   String[] // Subjects I can teach
   chatsAsLearner   Chat[]    @relation("LearnerChats")
   chatsAsTutor     Chat[]    @relation("TutorChats")
   messages         Message[]
-}
-
-model Request {
-  id        String   @id @default(uuid())
-  learnerId String
-  tutorId   String
-  subject   String
-  message   String
-  createdAt DateTime @default(now())
-  
-  learner   User     @relation("LearnerRequests", fields: [learnerId], references: [id])
-  tutor     User     @relation("TutorRequests", fields: [tutorId], references: [id])
 }
 
 model Chat {

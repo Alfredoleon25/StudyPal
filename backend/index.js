@@ -22,9 +22,13 @@ app.use(express.json());
 ------------------------ */
 app.post("/users", async (req, res) => {
   try {
-    const { name, subjects } = req.body;
+    const { name, learnSubjects, teachSubjects } = req.body;
     const user = await prisma.user.create({
-      data: { name, subjects },
+      data: { 
+        name, 
+        learnSubjects: learnSubjects || [],
+        teachSubjects: teachSubjects || []
+      },
     });
     res.json(user);
   } catch (error) {
@@ -32,6 +36,7 @@ app.post("/users", async (req, res) => {
     res.status(500).json({ error: "Failed to create user" });
   }
 });
+
 // app.post("/users", async (req, res) => {
 
 //   try {
@@ -55,18 +60,22 @@ app.get("/tutors", async (req, res) => {
     
     if (subjects) {
       const subjectArray = subjects.split(',');
-      console.log("Filtering tutors for subjects:", subjectArray);
+      console.log("Looking for tutors who can teach:", subjectArray);
       
       const tutors = await prisma.user.findMany({
         where: {
-          subjects: { hasSome: subjectArray },
+          teachSubjects: { hasSome: subjectArray },
         },
       });
       
       console.log("Found tutors:", tutors.length);
       res.json(tutors);
     } else {
-      const tutors = await prisma.user.findMany();
+      const tutors = await prisma.user.findMany({
+        where: {
+          teachSubjects: { isEmpty: false }
+        }
+      });
       res.json(tutors);
     }
   } catch (error) {
@@ -95,14 +104,34 @@ app.get("/tutors", async (req, res) => {
 /* -----------------------
    Update User Subjects
 ------------------------ */
+// app.patch("/users/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { subjects } = req.body;
+    
+//     const user = await prisma.user.update({
+//       where: { id },
+//       data: { subjects },
+//     });
+    
+//     res.json(user);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to update user" });
+//   }
+// });
 app.patch("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { subjects } = req.body;
+    const { learnSubjects, teachSubjects } = req.body;
+    
+    const updateData = {};
+    if (learnSubjects !== undefined) updateData.learnSubjects = learnSubjects;
+    if (teachSubjects !== undefined) updateData.teachSubjects = teachSubjects;
     
     const user = await prisma.user.update({
       where: { id },
-      data: { subjects },
+      data: updateData,
     });
     
     res.json(user);
@@ -188,7 +217,7 @@ app.get("/chats/:userId", async (req, res) => {
       where: {
         OR: [
           { learnerId: userId },
-          { tutorId: userId }
+        {tutorId: userId }
         ]
       },
       include: {
@@ -206,9 +235,61 @@ app.get("/chats/:userId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch chats" });
+  }   
+});
+/* -----------------------
+   Get Requests Setn by Tutor
+------------------------ */
+app.get("/requests/tutor/:tutorId", async (req, res) => {
+  try {
+    const { tutorId } = req.params;
+    
+    const chats = await prisma.chat.findMany({
+      where: {tutorId},
+      include: {
+        learner: { select: { id: true, name: true } },
+        tutor: { select: { id: true, name: true } },
+        messages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1, // Get last message
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    
+    res.json(chats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch chats" });
+  }   
+});
+/* -----------------------
+   Get Requests Sent by Learner
+------------------------ */
+app.get("/requests/learner/:learnerId", async (req, res) => {
+  try {
+    const { learnerId } = req.params;
+    console.log("Fetching requests from learnerId:", learnerId);
+    
+    const requests = await prisma.chat.findMany({
+      where: { learnerId },
+      include: {
+        tutor: {select: {id: true,name: true,}},
+         messages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1, // Get last message
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    
+    console.log("Found requests:", requests.length);
+    res.json(requests);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch requests" });
   }
 });
-
 /* -----------------------
    Get Messages in a Chat
 ------------------------ */
