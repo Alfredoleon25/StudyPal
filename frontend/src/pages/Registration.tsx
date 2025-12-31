@@ -1,167 +1,140 @@
-// import { useState } from "react";
-
-// export default function Registration() {
-//   const [name, setName] = useState("");
-
-//   const handleRoleSelection = async (selectedRole: "learner" | "tutor") => {
-//     if (!name) return alert("Enter your name");
-
-//     try {
-//       localStorage.setItem("tempuser", JSON.stringify({ name, role: selectedRole }));
-//       window.location.href = "/subjects";
-//     } catch (error: any) {
-//       console.error("Error creating user:", error);
-//       alert(error.message || "Failed to create user");
-//     }
-//   };
-
-//   return (
-//     <div style={{ 
-//       padding: 40,
-//       maxWidth: 600,
-//       margin: "0 auto",
-//       fontFamily: "system-ui, -apple-system, sans-serif"
-//     }}>
-//       <h1 style={{ fontSize: 32, marginBottom: 10 }}>Welcome to StudyPal!</h1>
-//       <p style={{ color: "#666", marginBottom: 30 }}>
-//         Please enter your name and select your role to continue:
-//       </p>
-
-//       <input
-//         type="text"
-//         placeholder="Your Name"
-//         value={name}
-//         onChange={(e) => setName(e.target.value)}
-//         style={{
-//           width: "100%",
-//           padding: "12px 15px",
-//           fontSize: 16,
-//           borderRadius: 8,
-//           border: "1px solid #e0e0e0",
-//           marginBottom: 20,
-//           outline: "none",
-//           transition: "border-color 0.2s",
-//         }}
-//         onFocus={(e) => e.currentTarget.style.borderColor = "#4CAF50"}
-//         onBlur={(e) => e.currentTarget.style.borderColor = "#e0e0e0"}
-//       />
-
-//       <div style={{ marginBottom: 15, fontWeight: 600, color: "#555" }}>
-//         Select Role:
-//       </div>
-
-//       <div style={{ display: "flex", gap: 10, marginBottom: 30 }}>
-//         <button
-//           onClick={() => handleRoleSelection("learner")}
-//           style={{
-//             flex: 1,
-//             padding: "12px 0",
-//             borderRadius: 8,
-//             border: "1px solid #4CAF50",
-//             backgroundColor: "#4CAF50",
-//             color: "#fff",
-//             cursor: "pointer",
-//             fontSize: 16,
-//             fontWeight: "bold",
-//             transition: "all 0.2s",
-//           }}
-//           onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#45a049"}
-//           onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#4CAF50"}
-//         >
-//           Learner
-//         </button>
-
-//         <button
-//           onClick={() => handleRoleSelection("tutor")}
-//           style={{
-//             flex: 1,
-//             padding: "12px 0",
-//             borderRadius: 8,
-//             border: "1px solid #2196F3",
-//             backgroundColor: "#2196F3",
-//             color: "#fff",
-//             cursor: "pointer",
-//             fontSize: 16,
-//             fontWeight: "bold",
-//             transition: "all 0.2s",
-//           }}
-//           onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#0b7dda"}
-//           onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#2196F3"}
-//         >
-//           Tutor
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
 import { useState } from "react";
 
 export default function Registration() {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   const handleContinue = () => {
-    if (!name.trim()) return alert("Enter your name");
-    
-    // Save name to localStorage temporarily
+    if (!name.trim()) {
+      setError("Please enter your name");
+      return;
+    }
+
+    setError("");
+
+    // Save name temporarily
     localStorage.setItem("tempuser", JSON.stringify({ name }));
-    
-    // Redirect to subjects page
+
+    // Redirect
     window.location.href = "/subjects";
   };
 
   return (
-    <div style={{ 
-      padding: 40,
-      maxWidth: 500,
-      margin: "0 auto",
-      fontFamily: "system-ui, -apple-system, sans-serif"
-    }}>
-      <h1 style={{ fontSize: 36, marginBottom: 10 }}>Welcome to StudyPal</h1>
-      <p style={{ color: "#666", marginBottom: 30, fontSize: 16 }}>
-        Connect with peers to learn and teach together
-      </p>
-
-      <div style={{ marginBottom: 30 }}>
-        <label style={{ 
-          display: "block", 
-          marginBottom: 8, 
-          fontWeight: "bold",
-          fontSize: 15 
-        }}>
-          What's your name?
-        </label>
-        <input
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 15,
-            fontSize: 16,
-            border: "2px solid #e0e0e0",
-            borderRadius: 8,
-            outline: "none",
-          }}
-          onKeyPress={(e) => e.key === "Enter" && handleContinue()}
-        />
-      </div>
-
-      <button
-        onClick={handleContinue}
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#555a60",
+      }}
+    >
+      <div
         style={{
           width: "100%",
-          padding: 15,
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          borderRadius: 8,
-          cursor: "pointer",
-          fontSize: 16,
-          fontWeight: "bold",
+          maxWidth: 420,
+          padding: 40,
+          backgroundColor: "#47494dff",
+          borderRadius: 16,
+          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+          fontFamily: "system-ui, -apple-system, sans-serif",
         }}
       >
-        Continue
-      </button>
+        <h1
+          style={{
+            fontSize: 32,
+            marginBottom: 8,
+            fontWeight: 700,
+          }}
+        >
+          Welcome to StudyPal
+        </h1>
+
+        <p
+          style={{
+            color: "#777",
+            marginBottom: 30,
+            fontSize: 15,
+            lineHeight: 1.5,
+          }}
+        >
+          Connect with peers to learn and teach together
+        </p>
+
+        <div style={{ marginBottom: 10 }}>
+          <label
+            style={{
+              display: "block",
+              marginBottom: 8,
+              fontWeight: 600,
+              fontSize: 14,
+            }}
+          >
+            What's your name?
+          </label>
+
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              setError("");
+            }}
+            onKeyDown={(e) => e.key === "Enter" && handleContinue()}
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              fontSize: 16,
+              borderRadius: 10,
+              border: error ? "2px solid #e53935" : "2px solid #ddd",
+              outline: "none",
+              backgroundColor: "#fafafa",
+              transition: "border 0.2s ease",
+              boxSizing: "border-box",
+              color:"black"
+            }}
+          />
+
+          {error && (
+            <div
+              style={{
+                color: "#e53935",
+                fontSize: 13,
+                marginTop: 6,
+              }}
+            >
+              {error}
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={handleContinue}
+          style={{
+            width: "100%",
+            marginTop: 24,
+            padding: 14,
+            backgroundColor: "#4CAF50",
+            color: "#ffffff",
+            fontSize: 16,
+            fontWeight: 600,
+            borderRadius: 10,
+            border: "none",
+            cursor: "pointer",
+            transition: "background-color 0.2s ease",
+          }}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.backgroundColor = "#43a047")
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.backgroundColor = "#4CAF50")
+          }
+        >
+          Continue
+        </button>
+      </div>
     </div>
   );
 }

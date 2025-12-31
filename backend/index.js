@@ -159,17 +159,53 @@ app.patch("/users/:id", async (req, res) => {
 /* -----------------------
    Create Help Request & Chat
 ------------------------ */
-app.post("/requests", async (req, res) => {
-  try {
-    const { learnerId, tutorId, subject} = req.body;
+// app.post("/requests", async (req, res) => {
+//   try {
+//     const { learnerId, tutorId, subject} = req.body;
     
-    // Create the request
-    // const request = await prisma.request.create({
-    //   data: { learnerId, tutorId, subject},
-    // });
+//     // Check if chat already exists
+//     let chat = await prisma.chat.findUnique({
+//       where: {
+//         learnerId_tutorId_subject: {
+//           learnerId,
+//           tutorId,
+//           subject,
+//         }
+//       }
+//     });
+    
+//     // If no chat exists, create one
+//     if (!chat) {
+//       chat = await prisma.chat.create({
+//         data: {
+//           learnerId,
+//           tutorId,
+//           subject,
+//         }
+//       });
+      
+//       // Create first message in the chat
+//       // await prisma.message.create({
+//       //   data: {
+//       //     chatId: chat.id,
+//       //     senderId: learnerId,
+//       //     content: message,
+//       //   }
+//       // });
+//     }
+    
+//     res.json({ chatId: chat.id });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to create request" });
+//   }
+// });
+app.post("/chats", async (req, res) => {
+  try {
+    const { learnerId, tutorId, subject } = req.body;
     
     // Check if chat already exists
-    let chat = await prisma.chat.findUnique({
+    const existingChat = await prisma.chat.findUnique({
       where: {
         learnerId_tutorId_subject: {
           learnerId,
@@ -179,33 +215,25 @@ app.post("/requests", async (req, res) => {
       }
     });
     
-    // If no chat exists, create one
-    if (!chat) {
-      chat = await prisma.chat.create({
-        data: {
-          learnerId,
-          tutorId,
-          subject,
-        }
-      });
-      
-      // Create first message in the chat
-      // await prisma.message.create({
-      //   data: {
-      //     chatId: chat.id,
-      //     senderId: learnerId,
-      //     content: message,
-      //   }
-      // });
+    if (existingChat) {
+      return res.json(existingChat);
     }
     
-    res.json({ chatId: chat.id });
+    // Create new chat
+    const chat = await prisma.chat.create({
+      data: {
+        learnerId,
+        tutorId,
+        subject,
+      },
+    });
+    
+    res.json(chat);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to create request" });
+    res.status(500).json({ error: "Failed to create chat" });
   }
 });
-
 /* -----------------------
    Get Chats for User
 ------------------------ */

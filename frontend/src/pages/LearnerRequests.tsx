@@ -36,6 +36,8 @@ export default function LearnerRequests() {
       setLoading(false);
     }
   };
+  const openChat = (chatId: string) => {
+    window.location.href = `/chat/${chatId}`;}
 
   if (loading) {
     return (
@@ -93,7 +95,9 @@ export default function LearnerRequests() {
       {requests.map((request) => (
         <div
           key={request.id}
+          onClick={() => openChat(request.id)}
           style={{
+            cursor:"pointer",
             border: "1px solid #e0e0e0",
             padding: 20,
             marginBottom: 20,
