@@ -108,6 +108,7 @@ return (
       minHeight: "100vh",
       width: "100vw",
       backgroundColor: "#555a60",
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       padding: 40,
       boxSizing: "border-box",
       fontFamily: "system-ui, -apple-system, sans-serif",
@@ -228,7 +229,7 @@ return (
         onClick={goBack}
         disabled={loading}
         style={{
-          padding: "14px 32px",
+          padding: "14px 32px",     
           borderRadius: 10,
           border: "2px solid #ddd",
           background: "#fff",
@@ -249,8 +250,8 @@ return (
           padding: "14px 48px",
           borderRadius: 10,
           border: "none",
-          background: "#4CAF50",
-          color: "#fff",
+          background: "#fff",
+          color: "black",
           fontWeight: "bold",
           cursor: "pointer",
           fontSize: 16,

@@ -58,6 +58,8 @@ export default function Tutors() {
         alignItems: "auto-flex",
         justifyContent: "center",
         backgroundColor: "#555a60",
+                // background: "linear-gradient(135deg, #667eea 0%, #764ba2 80%)",
+                        background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
         fontFamily: "system-ui, -apple-system, sans-serif",
         overflow:"auto",
         paddingTop: 40,
@@ -71,6 +73,7 @@ export default function Tutors() {
           maxWidth: 700,
           padding: 40,
           backgroundColor: "#47494dff",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           borderRadius: 16,
           boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
         }}
@@ -127,11 +130,11 @@ export default function Tutors() {
               style={{
                 padding: "6px 14px",
                 borderRadius: 20,
-                backgroundColor: "#e8f5e9",
-                color: "#2e7d32",
+                backgroundColor: "#e3f2fd",
+                color: "#1565c0",
                 fontSize: 14,
                 fontWeight: 500,
-                border: "1px solid #c8e6c9",
+                border: "1px solid #bbdefb" ,
               }}
             >
               {subject}
@@ -198,10 +201,10 @@ export default function Tutors() {
                         style={{
                           padding: "5px 12px",
                           borderRadius: 16,
-                          backgroundColor: "#e3f2fd",
-                          color: "#1565c0",
+                          backgroundColor: "#e8f5e9",
+                          color: "#2e7d32",
                           fontSize: 13,
-                          border: "1px solid #bbdefb",
+                          border: "1px solid #c8e6c9",
                         }}
                       >
                         {subject}
@@ -224,7 +227,7 @@ export default function Tutors() {
                   onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#43a047")}
                   onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#4CAF50")}
                 >
-                  Ask for help
+                  Start Chat
                 </button>
               </div>
             ))}

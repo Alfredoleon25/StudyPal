@@ -13,177 +13,221 @@ export default function Dashboard() {
   }, []);
 
   if (!user) {
-    return <div style={{ padding: 20 }}>Loading...</div>;
+    return <div style={{ padding: 40 }}>Loading...</div>;
   }
 
   return (
-    <div style={{ 
-      padding: 40,
-      maxWidth: 900,
-      margin: "0 auto",
-      fontFamily: "system-ui, -apple-system, sans-serif"
-    }}>
-      <h1 style={{ fontSize: 36, marginBottom: 10 }}>
-        Welcome, {user.name}! 👋
-      </h1>
-      <div style={{ marginBottom: 40 }}>
-        <p style={{ color: "#666", fontSize: 16, marginBottom: 5 }}>
-          📚 Want to learn: <strong>{user.learnSubjects?.join(", ") || "None selected"}</strong>
-        </p>
-        <p style={{ color: "#666", fontSize: 16, marginBottom: 10 }}>
-          👨‍🏫 Can teach: <strong>{user.teachSubjects?.join(", ") || "None selected"}</strong>
-        </p>
-        <button
-          onClick={() => window.location.href = "/edit-subjects"}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#fff",
-            color: "#4CAF50",
-            border: "1px solid #4CAF50",
-            borderRadius: 6,
-            cursor: "pointer",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        >
-          Edit Subjects
-        </button>
-      </div>
+    <div
+      style={{
+       background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        backgroundColor: "#555a60",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+        width:"100vw",
 
-      <div style={{ 
-        display: "grid", 
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        gap: 20,
-        marginBottom: 20
-      }}>
-        {/* Find Tutors Card */}
-        <div
-          onClick={() => window.location.href = "/tutors"}
-          style={{
-            padding: 30,
-            border: "2px solid #e0e0e0",
-            borderRadius: 12,
-            cursor: "pointer",
-            backgroundColor: "#fff",
-            transition: "all 0.2s",
-            textAlign: "center",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#4CAF50";
-            e.currentTarget.style.transform = "translateY(-4px)";
-            e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#e0e0e0";
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          <div style={{ fontSize: 48, marginBottom: 15 }}>📚</div>
-          <h2 style={{ fontSize: 22, margin: "0 0 10px 0", color: "#333" }}>
-            Find Tutors
-          </h2>
-          <p style={{ color: "#666", fontSize: 15, margin: 0 }}>
-            Browse tutors and request help with your subjects
+      }}
+    >
+      {/* Main Content Wrapper */}
+      <div
+        style={{
+          height: "100%",
+          padding: "64px 80px",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* Header */}
+        <div style={{ marginBottom: 40 }}>
+          <h1
+            style={{
+              fontSize: 52,
+              fontWeight: 800,
+              marginBottom: 12,
+              color: "#ffffff",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Welcome, {user.name} 
+          </h1>
+
+          <p
+            style={{
+               fontSize: 22, fontWeight: 600, color: "#f9fafb"
+              // fontSize: 18,
+              // color: "#d1d5db",
+              // maxWidth: 720,
+              // lineHeight: 1.6,
+            }}
+          >
+        Find tutors. Help students. Chat instantly.
           </p>
+
+          <button
+            onClick={() => (window.location.href = "/edit-subjects")}
+            style={{
+              marginTop: 20,
+              padding: "10px 18px",
+              backgroundColor: "#f9fafb",
+              color: "#111827",
+              border: "none",
+              borderRadius: 10,
+              cursor: "pointer",
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            Edit Subjects
+          </button>
         </div>
 
-        {/* My Sent Requests Card */}
+        {/* Subjects */}
         <div
-          onClick={() => window.location.href = "/my-requests"}
           style={{
-            padding: 30,
-            border: "2px solid #e0e0e0",
-            borderRadius: 12,
-            cursor: "pointer",
-            backgroundColor: "#fff",
-            transition: "all 0.2s",
-            textAlign: "center",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#2196F3";
-            e.currentTarget.style.transform = "translateY(-4px)";
-            e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#e0e0e0";
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: 48,
           }}
         >
-          <div style={{ fontSize: 48, marginBottom: 15 }}>📤</div>
-          <h2 style={{ fontSize: 22, margin: "0 0 10px 0", color: "#333" }}>
-            My Requests
-          </h2>
-          <p style={{ color: "#666", fontSize: 15, margin: 0 }}>
-            View help requests you've sent to tutors
-          </p>
+          {user.learnSubjects?.map((subject: string) => (
+            <span
+              key={`learn-${subject}`}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 9999,
+                backgroundColor: "#eef2ff",
+                color: "#3730a3",
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              {subject}
+            </span>
+          ))}
+
+          {user.teachSubjects?.map((subject: string) => (
+            <span
+              key={`teach-${subject}`}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 9999,
+                backgroundColor: "#ecfdf5",
+                color: "#065f46",
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              {subject}
+            </span>
+          ))}
         </div>
 
-        {/* Help Requests Card */}
+        {/* Feature Cards (2 x 2, LEFT ALIGNED) */}
         <div
-          onClick={() => window.location.href = "/tutor-requests"}
           style={{
-            padding: 30,
-            border: "2px solid #e0e0e0",
-            borderRadius: 12,
-            cursor: "pointer",
-            backgroundColor: "#fff",
-            transition: "all 0.2s",
-            textAlign: "center",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#4CAF50";
-            e.currentTarget.style.transform = "translateY(-4px)";
-            e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#e0e0e0";
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 32,
+            flexGrow: 1,
           }}
         >
-          <div style={{ fontSize: 48, marginBottom: 15 }}>✋</div>
-          <h2 style={{ fontSize: 22, margin: "0 0 10px 0", color: "#333" }}>
-            Help Requests
-          </h2>
-          <p style={{ color: "#666", fontSize: 15, margin: 0 }}>
-            See who needs help with subjects you know
-          </p>
-        </div>
+          <FeatureCard
+            icon="🎓"
+            title="Find Tutors"
+            description="Browse tutors available for your learning subjects."
+            bg="#e0ecff"
+            href="/tutors"
+          />
 
-        {/* My Chats Card */}
-        <div
-          onClick={() => window.location.href = "/chats"}
-          style={{
-            padding: 30,
-            border: "2px solid #e0e0e0",
-            borderRadius: 12,
-            cursor: "pointer",
-            backgroundColor: "#fff",
-            transition: "all 0.2s",
-            textAlign: "center",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#4CAF50";
-            e.currentTarget.style.transform = "translateY(-4px)";
-            e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#e0e0e0";
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          <div style={{ fontSize: 48, marginBottom: 15 }}>💬</div>
-          <h2 style={{ fontSize: 22, margin: "0 0 10px 0", color: "#333" }}>
-            My Chats
-          </h2>
-          <p style={{ color: "#666", fontSize: 15, margin: 0 }}>
-            Continue conversations with your study partners
-          </p>
+          <FeatureCard
+            icon="📝"
+            title="My Requests"
+            description="Track the help requests you’ve sent."
+            bg="#e6f6ff"
+            href="/my-requests"
+          />
+
+          <FeatureCard
+            icon="🤝"
+            title="Help Requests"
+            description="See students who need help in your subjects."
+            bg="#dcfce7"
+            href="/tutor-requests"
+          />
+
+          <FeatureCard
+            icon="💬"
+            title="My Chats"
+            description="Continue conversations with tutors and students."
+            bg="#f0fdf4"
+            href="/chats"
+          />
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ---------- Feature Card ---------- */
+function FeatureCard({
+  icon,
+  title,
+  description,
+  bg,
+  href,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+  bg: string;
+  href: string;
+}) {
+  return (
+    <div
+      onClick={() => (window.location.href = href)}
+      style={{
+        padding: 36,
+        borderRadius: 24,
+        backgroundColor: bg,
+        cursor: "pointer",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-6px)";
+        e.currentTarget.style.boxShadow =
+          "0 16px 32px rgba(0,0,0,0.18)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div style={{ fontSize: 42, marginBottom: 16 }}>{icon}</div>
+
+      <h2
+        style={{
+          fontSize: 22,
+          fontWeight: 700,
+          marginBottom: 8,
+          color: "#525458ff",
+        }}
+      >
+        {title}
+      </h2>
+
+      <p
+        style={{
+          fontSize: 15,
+          color: "#374151",
+          lineHeight: 1.6,
+          margin: 0,
+        }}
+      >
+        {description}
+      </p>
     </div>
   );
 }

@@ -1,214 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { api } from "../services/api";
-
-// const SUBJECTS = ["Calculus", "Physics", "Programming","Music","Theater","biology","Quemestry"];
-
-// export default function Subjects() {
-//   const [learnSubjects, setLearnSubjects] = useState<string[]>([]);
-//   const [teachSubjects, setTeachSubjects] = useState<string[]>([]);
-//   const [tempUser, setTempUser] = useState<{ name: string } | null>(null);
-
-//   useEffect(() => {
-//     const temp = localStorage.getItem("tempuser");
-//     if (!temp) {
-//       window.location.href = "/";
-//       return;
-//     }
-//     setTempUser(JSON.parse(temp));
-//   }, []);
-
-//   const toggleLearnSubject = (subject: string) => {
-//     setLearnSubjects((prev) =>
-//       prev.includes(subject)
-//         ? prev.filter((s) => s !== subject)
-//         : [...prev, subject]
-//     );
-//   };
-
-//   const toggleTeachSubject = (subject: string) => {
-//     setTeachSubjects((prev) =>
-//       prev.includes(subject)
-//         ? prev.filter((s) => s !== subject)
-//         : [...prev, subject]
-//     );
-//   };
-
-//   const createUser = async () => {
-//     if (learnSubjects.length === 0 && teachSubjects.length === 0) {
-//       return alert("Select at least one subject to learn or teach");
-//     }
-
-//     if (!tempUser) return;
-
-//     try {
-//       const response = await api("/users", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           name: tempUser.name,
-//           learnSubjects,
-//           teachSubjects,
-//         }),
-//       });
-
-//       const user = await response;
-//       console.log("User created:", user);
-
-//       localStorage.setItem("user", JSON.stringify(user));
-//       localStorage.removeItem("tempuser");
-
-//       window.location.href = "/dashboard";
-//     } catch (error: any) {
-//       console.error("Error creating user:", error);
-//       alert(error.message || "Failed to create user");
-//     }
-//   };
-
-//   if (!tempUser) {
-//     return <div style={{ padding: 20 }}>Loading...</div>;
-//   }
-
-//   return (
-//     <div style={{ 
-//       padding: 40,
-//       maxWidth: 900,
-//       margin: "0 auto",
-//       fontFamily: "system-ui, -apple-system, sans-serif"
-//     }}>
-//       <h1 style={{ fontSize: 32, marginBottom: 10 }}>Select Your Subjects</h1>
-//       <p style={{ color: "#666", marginBottom: 40 }}>
-//         Hi <strong>{tempUser.name}</strong>! Tell us what you want to learn and what you can teach:
-//       </p>
-
-//       <div style={{ 
-//         display: "grid", 
-//         gridTemplateColumns: "1fr 1fr", 
-//         gap: 30,
-//         marginBottom: 30 
-//       }}>
-//         {/* Learn Subjects */}
-//         <div>
-//           <h2 style={{ fontSize: 20, marginBottom: 15, color: "#2196F3" }}>
-//             📚 I want to learn:
-//           </h2>
-//           {SUBJECTS.map((subject) => (
-//             <div
-//               key={`learn-${subject}`}
-//               style={{
-//                 padding: 15,
-//                 marginBottom: 10,
-//                 border: learnSubjects.includes(subject)
-//                   ? "2px solid #2196F3"
-//                   : "2px solid #e0e0e0",
-//                 borderRadius: 8,
-//                 cursor: "pointer",
-//                 backgroundColor: learnSubjects.includes(subject)
-//                   ? "#e3f2fd"
-//                   : "#fff",
-//                 transition: "all 0.2s",
-//                 color:"black"
-//               }}
-//               onClick={() => toggleLearnSubject(subject)}
-//             >
-//               <label style={{ 
-//                 cursor: "pointer", 
-//                 display: "flex", 
-//                 alignItems: "center",
-//                 fontSize: 15
-//               }}>
-//                 <input
-//                   type="checkbox"
-//                   checked={learnSubjects.includes(subject)}
-//                   onChange={() => {}}
-//                   style={{ marginRight: 10, width: 18, height: 18 }}
-//                 />
-//                 {subject}
-//               </label>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Teach Subjects */}
-//         <div>
-//           <h2 style={{ fontSize: 20, marginBottom: 15, color: "#4CAF50" }}>
-//             👨‍🏫 I can teach:
-//           </h2>
-//           {SUBJECTS.map((subject) => (
-//             <div
-//               key={`teach-${subject}`}
-//               style={{
-//                 padding: 15,
-//                 marginBottom: 10,
-//                 border: teachSubjects.includes(subject)
-//                   ? "2px solid #4CAF50"
-//                   : "2px solid #e0e0e0",
-//                 borderRadius: 8,
-//                 cursor: "pointer",
-//                 backgroundColor: teachSubjects.includes(subject)
-//                   ? "#f1f8f4"
-//                   : "#fff",
-//                 transition: "all 0.2s",
-//                 color:"black"
-//               }}
-//               onClick={() => toggleTeachSubject(subject)}
-//             >
-//               <label style={{ 
-//                 cursor: "pointer", 
-//                 display: "flex", 
-//                 alignItems: "center",
-//                 fontSize: 15
-//               }}>
-//                 <input
-//                   type="checkbox"
-//                   checked={teachSubjects.includes(subject)}
-//                   onChange={() => {}}
-//                   style={{ marginRight: 10, width: 18, height: 18 }}
-//                 />
-//                 {subject}
-//               </label>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-
-//       <div style={{ display: "flex", gap: 10 }}>
-//         <button
-//           onClick={() => window.location.href = "/"}
-//           style={{
-//             padding: "12px 24px",
-//             border: "1px solid #ddd",
-//             borderRadius: 8,
-//             backgroundColor: "#fff",
-//             cursor: "pointer",
-//             fontSize: 16,
-//             color:"black"
-//           }}
-//         >
-//           Back
-//         </button>
-//         <button
-//           onClick={createUser}
-//           style={{
-//             padding: "12px 24px",
-//             backgroundColor: "#4CAF50",
-//             color: "white",
-//             border: "none",
-//             borderRadius: 8,
-//             cursor: "pointer",
-//             fontSize: 16,
-//             fontWeight: "bold",
-//             flex: 1,
-//           }}
-//         >
-//           Continue
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
@@ -286,13 +75,14 @@ export default function Subjects() {
       style={{
         minHeight: "100vh",
         width: "100vw",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         backgroundColor: "#555a60", // dark gray background covers whole page
         padding: 40,
         boxSizing: "border-box",
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
-      <h1
+      {/* <h1
         style={{
           marginBottom: 40,
           color: "white",
@@ -302,7 +92,29 @@ export default function Subjects() {
         }}
       >
         Select Your Subjects
+      </h1> */}
+            <h1
+        style={{
+          textAlign: "center",
+          fontSize: 40,
+          fontWeight: 800,
+          color: "white",
+          marginBottom: 10,
+        }}
+      >
+        Hi {tempUser.name} 
       </h1>
+
+      <p
+        style={{
+          textAlign: "center",
+          color: "rgba(255,255,255,0.85)",
+          fontSize: 17,
+          marginBottom: 50,
+        }}
+      >
+        Pick what you want to learn or teach
+      </p>
 
       <div
         style={{
@@ -399,7 +211,7 @@ export default function Subjects() {
         }}
       >
         <button
-          onClick={() => (window.location.href = "/")}
+          onClick={() => (window.location.href = "/registration")}
           style={{
             padding: "14px 32px",
             borderRadius: 10,
@@ -420,14 +232,15 @@ export default function Subjects() {
             padding: "14px 48px",
             borderRadius: 10,
             border: "none",
-            background: "#4CAF50",
-            color: "#fff",
+            background:  "#fff",
+            color: "black",
             fontWeight: "bold",
             cursor: "pointer",
             fontSize: 16,
             boxShadow: "0 4px 12px rgba(76,175,80,0.3)",
             flex: 1,
             maxWidth: 200,
+             
           }}
         >
           Continue

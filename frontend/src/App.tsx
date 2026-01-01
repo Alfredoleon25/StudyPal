@@ -8,14 +8,16 @@ import Tutors from "./pages/Tutors";
 import TutorRequests from "./pages/TutorRequests";
 import ChatWindow from "./pages/chat/:chatId";
 import ChatList from "./pages/chats";
+import LandingPage from "./pages/LandingPage";
 
 export default App
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage/>}/>
         <Route path="/my-requests" element={<LearnerRequests />} />
-        <Route path="/" element={<Registration />} />
+        <Route path="/registration" element={<Registration />} />
         <Route path="/subjects" element={<Subjects />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/edit-subjects" element={<EditSubjects />} />

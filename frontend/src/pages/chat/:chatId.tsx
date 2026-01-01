@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../services/api";
@@ -23,7 +22,6 @@ export default function ChatWindow() {
 
   useEffect(() => {
     if (chatId === "new") {
-      // New chat - load pending chat info
       const pending = localStorage.getItem("pendingChat");
       if (!pending) {
         window.location.href = "/tutors";
@@ -35,7 +33,6 @@ export default function ChatWindow() {
       setIsNewChat(true);
       setLoading(false);
     } else {
-      // Existing chat
       fetchMessages();
       fetchChatDetails();
       const interval = setInterval(fetchMessages, 3000);
@@ -56,7 +53,7 @@ export default function ChatWindow() {
       const response = await api(`/chats/${user.id}`);
       const allChats = await response;
       const currentChat = allChats.find((c: any) => c.id === chatId);
-      
+
       if (currentChat) {
         const otherUser = user.role === "learner" ? currentChat.tutor : currentChat.learner;
         setOtherUserName(otherUser.name);
@@ -84,7 +81,6 @@ export default function ChatWindow() {
 
     try {
       if (isNewChat && pendingChat) {
-     // Create chat with first message
         const chatResponse = await api("/chats", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -96,8 +92,7 @@ export default function ChatWindow() {
         });
 
         const newChat = await chatResponse;
-        
-        // Send first message
+
         const messageResponse = await api(`/chats/${newChat.id}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -108,13 +103,9 @@ export default function ChatWindow() {
         });
 
         const message = await messageResponse;
-        console.log("this is my first messsage",message)
-        // Clear pending chat and redirect to actual chat
         localStorage.removeItem("pendingChat");
         window.location.href = `/chat/${newChat.id}`;
       } else {
-  console.log("this is a existing chat");
-        // Existing chat - just send message
         const response = await api(`/chats/${chatId}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -139,142 +130,177 @@ export default function ChatWindow() {
   }
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      height: "100vh",
-      maxWidth: 800,
-      margin: "0 auto",
-      fontFamily: "system-ui, -apple-system, sans-serif"
-    }}>
-      {/* Header */}
-      <div style={{
-        padding: 20,
-        borderBottom: "1px solid #e0e0e0",
-        backgroundColor: "#fff",
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
         display: "flex",
+        justifyContent: "center",
         alignItems: "center",
-        gap: 15
-      }}>
-        <button 
-          onClick={() => window.location.href = "/dashboard"}
-          style={{
-            padding: "10px 20px",
-            cursor: "pointer",
-            border: "1px solid #4CAF50",
-            borderRadius: 8,
-            backgroundColor: "#fff",
-            color: "#4CAF50",
-            fontWeight: "bold",
-            fontSize: 14
-          }}
-        >
-          ← Dashboard
-        </button>
-        
-        <h2 style={{ margin: 0, fontSize: 20 }}>
-          {otherUserName || "Chat"}
-        </h2>
-      </div>
-
-      {/* Messages */}
-      <div style={{
-        flex: 1,
-        overflowY: "auto",
-        padding: 20,
-        backgroundColor: "#f5f5f5"
-      }}>
-        {messages.map((message) => {
-          const isMe = message.sender.id === user.id;
-          
-          return (
-            <div
-              key={message.id}
-              style={{
-                display: "flex",
-                justifyContent: isMe ? "flex-end" : "flex-start",
-                marginBottom: 15
-              }}
-            >
-              <div style={{
-                maxWidth: "70%",
-                padding: 12,
-                borderRadius: 12,
-                backgroundColor: isMe ? "#4CAF50" : "#fff",
-                color: isMe ? "#fff" : "#333",
-                boxShadow: "0 1px 2px rgba(0,0,0,0.1)"
-              }}>
-                {!isMe && (
-                  <p style={{
-                    margin: "0 0 5px 0",
-                    fontSize: 12,
-                    fontWeight: "bold",
-                    opacity: 0.8
-                  }}>
-                    {message.sender.name}
-                  </p>
-                )}
-                <p style={{ margin: 0, fontSize: 15 }}>
-                  {message.content}
-                </p>
-                <p style={{
-                  margin: "5px 0 0 0",
-                  fontSize: 11,
-                  opacity: 0.7
-                }}>
-                  {new Date(message.createdAt).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Input */}
-      <form
-        onSubmit={sendMessage}
+        background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+        overflow: "hidden",
+      }}
+    >
+      <div
         style={{
-          padding: 20,
-          borderTop: "1px solid #e0e0e0",
-          backgroundColor: "#fff",
+          maxWidth: 500,
+          width: "100%",
+          height: "80vh",
           display: "flex",
-          gap: 10
+          flexDirection: "column",
+          borderRadius: 20,
+          overflow: "hidden",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
+          background: "rgba(255,255,255,0.9)",
+          backdropFilter: "blur(10px)",
         }}
       >
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
+        {/* Header */}
+        <div
           style={{
-            flex: 1,
-            padding: 12,
-            border: "1px solid #ddd",
-            borderRadius: 24,
-            fontSize: 15,
-            outline: "none"
-          }}
-        />
-        <button
-          type="submit"
-          style={{
-            padding: "12px 24px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: 24,
-            cursor: "pointer",
-            fontSize: 15,
-            fontWeight: "bold"
+            padding: 20,
+            display: "flex",
+            alignItems: "center",
+            gap: 15,
+            backgroundColor: "rgba(255,255,255,0.8)",
+            backdropFilter: "blur(10px)",
+            borderBottom: "1px solid rgba(0,0,0,0.05)",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+            zIndex: 10,
           }}
         >
-          Send
-        </button>
-      </form>
+          <button
+            onClick={() => (window.location.href = "/dashboard")}
+            style={{
+              padding: "10px 20px",
+              cursor: "pointer",
+              border: "1px solid #667eea",
+              borderRadius: 8,
+              backgroundColor: "#fff",
+              color: "#667eea",
+              fontWeight: "bold",
+              fontSize: 14,
+            }}
+          >
+            ← Dashboard
+          </button>
+          <h2 style={{ margin: 0, fontSize: 20 }}>{otherUserName || "Chat"}</h2>
+        </div>
+
+        {/* Messages */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: 20,
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}
+        >
+          {messages.map((message) => {
+            const isMe = message.sender.id === user.id;
+            return (
+              <div
+                key={message.id}
+                style={{
+                  display: "flex",
+                  justifyContent: isMe ? "flex-end" : "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    maxWidth: "70%",
+                    padding: 14,
+                    borderRadius: 20,
+                    backgroundColor: isMe
+                      ? "rgba(102,126,234,0.3)"
+                      : "rgba(255,255,255,0.8)",
+                    color: isMe ? "#1a1a1a" : "#333",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                    backdropFilter: isMe ? "none" : "blur(6px)",
+                  }}
+                >
+                  {!isMe && (
+                    <p
+                      style={{
+                        margin: "0 0 5px 0",
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        opacity: 0.7,
+                      }}
+                    >
+                      {message.sender.name}
+                    </p>
+                  )}
+                  <p style={{ margin: 0, fontSize: 15 }}>{message.content}</p>
+                  <p
+                    style={{
+                      margin: "5px 0 0 0",
+                      fontSize: 11,
+                      opacity: 0.6,
+                      textAlign: "right",
+                    }}
+                  >
+                    {new Date(message.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <form
+          onSubmit={sendMessage}
+          style={{
+            padding: 20,
+            display: "flex",
+            gap: 10,
+            backgroundColor: "rgba(255,255,255,0.8)",
+            backdropFilter: "blur(10px)",
+            borderTop: "1px solid rgba(0,0,0,0.05)",
+          }}
+        >
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type a message..."
+            style={{
+              flex: 1,
+              padding: "14px 20px",
+              borderRadius: 24,
+              border: "1px solid #ddd",
+              fontSize: 15,
+              outline: "none",
+              backgroundColor: "rgba(255,255,255,0.9)",
+              color:"black"
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              padding: "14px 28px",
+              borderRadius: 24,
+              border: "none",
+              backgroundColor: "#667eea",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 15,
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(102,126,234,0.3)",
+            }}
+          >
+            Send
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
