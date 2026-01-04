@@ -96,7 +96,7 @@ export default function Dashboard() {
                 padding: "8px 16px",
                 borderRadius: 9999,
                 backgroundColor: "#eef2ff",
-                color: "#3730a3",
+                color: "#0a3ea7ff",
                 fontWeight: 600,
                 fontSize: 14,
               }}

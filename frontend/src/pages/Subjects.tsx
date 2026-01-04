@@ -127,7 +127,7 @@ export default function Subjects() {
       >
         {/* LEARN */}
         <div>
-          <h2 style={{ marginBottom: 20, color: "#2196F3" }}>
+          <h2 style={{ marginBottom: 20, color: "#3341a9ff" }}>
             📚 Learn
           </h2>
           {SUBJECTS.map((s) => {

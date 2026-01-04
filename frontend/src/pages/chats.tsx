@@ -84,8 +84,8 @@ export default function ChatList() {
             style={{
               padding: "8px 14px",
               backgroundColor: "#fff",
-              color: "#4CAF50",
-              border: "2px solid #4CAF50",
+              color: "#4c63afff",
+              border: "2px solid #4c99afff",
               borderRadius: 8,
               cursor: "pointer",
               fontWeight: "bold",

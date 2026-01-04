@@ -74,10 +74,36 @@ export default function LearnerRequests() {
         boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
         boxSizing: "border-box",
       }}>
+        <div           style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 30,
+            flexWrap: "wrap", // wrap on small screens
+          }}>
+         
         <h1 style={{ fontSize: 32, marginBottom: 10, color: "#fff" }}>
           My Sent Requests
         </h1>
-        <p style={{ fontSize: 16, color: "#eee", marginBottom: 30 }}>
+
+                  <button
+            onClick={() => (window.location.href = "/dashboard")}
+            style={{
+              padding: "8px 14px",
+              backgroundColor: "#fff",
+              color: "#4c63afff",
+              border: "2px solid #4c99afff",
+              borderRadius: 8,
+              cursor: "pointer",
+              fontWeight: "bold",
+              flexShrink: 0, // prevent shrinking
+            }}
+          >
+            ← Dashboard
+          </button>
+
+          </div>
+                  <p style={{ fontSize: 16, color: "#eee", marginBottom: 30 }}>
           Hello, <strong>{user.name}</strong>! Here are the help requests you've sent.
         </p>
 
