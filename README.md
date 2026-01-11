@@ -27,7 +27,7 @@ A simple web application to connect learners with tutors, built with **TypeScrip
 
 1. **Clone the repository**
 
-```bash
+bash
 git clone https://github.com/yourusername/tutor-chat-app.git
 cd tutor-chat-app
 

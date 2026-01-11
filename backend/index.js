@@ -14,7 +14,12 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 const app = express();
-app.use(cors());
+app.use(cors(
+  {
+  origin: '*', // Allow all origins for development
+  credentials: true
+}
+));
 app.use(express.json());
 
 /* -----------------------
