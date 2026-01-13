@@ -21,6 +21,7 @@ export default function Subjects() {
 
   useEffect(() => {
     const temp = localStorage.getItem("tempuser");
+
     if (!temp) {
       window.location.href = "/";
       return;
@@ -48,6 +49,8 @@ export default function Subjects() {
   };
 
   const createUser = async () => {
+    // const token = localStorage.getItem("supabase_token");
+
     if (learnSubjects.length === 0 && teachSubjects.length === 0) {
       return alert("Select at least one subject to learn or teach");
     }
@@ -55,7 +58,6 @@ export default function Subjects() {
     
     const user = await api("/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: tempUser.name,
         learnSubjects,

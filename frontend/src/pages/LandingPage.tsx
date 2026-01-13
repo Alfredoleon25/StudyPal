@@ -1,10 +1,16 @@
 import { useRef } from 'react';
 
+
+import { useState } from 'react';
+import AuthModal from './Authentication';
+
+
 export default function LandingPage() {
   // Refs for scrolling
   const featuresRef = useRef(null);
   const howItWorksRef = useRef(null);
   const aboutRef = useRef(null);
+  const [showAuth,setShowAuth] = useState(false)
 
   const scrollToSection = (ref:any) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -73,7 +79,7 @@ export default function LandingPage() {
               About
             </a>
             <button
-              onClick={() => window.location.href = "/registration"}
+              onClick={() => setShowAuth(true)}
               style={{
                 padding: "12px 30px",
                 backgroundColor: "white",
@@ -197,7 +203,7 @@ export default function LandingPage() {
           {/* CTA Buttons */}
           <div style={{ display: "flex", gap: 20 }}>
             <button
-              onClick={() => window.location.href = "/registration"}
+              onClick={() => setShowAuth(true)}
               style={{
                 padding: "18px 45px",
                 backgroundColor: "white",
@@ -471,7 +477,7 @@ export default function LandingPage() {
 
           <div style={{ textAlign: "center" }}>
             <button
-              onClick={() => window.location.href = "/"}
+              onClick={() => setShowAuth(true)}
               style={{
                 padding: "18px 45px",
                 background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -629,6 +635,7 @@ export default function LandingPage() {
           50% { transform: translateY(-20px) rotate(45deg); }
         }
       `}</style>
+         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </div>
   );
 }

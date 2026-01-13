@@ -4,9 +4,12 @@ const { PrismaClient } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const { Pool } = require("pg");
 
+const authenticate = require('./auth');
+
+
 // Create PostgreSQL connection pool
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-console.log('this is the DATABASE_URL:', process.env.DATABASE_URL);
+
 // Create adapter
 const adapter = new PrismaPg(pool);
 
@@ -25,16 +28,35 @@ app.use(express.json());
 /* -----------------------
    Create User
 ------------------------ */
-app.post("/users", async (req, res) => {
+app.post("/users",authenticate, async (req, res) => {
   try {
+    
     const { name, learnSubjects, teachSubjects } = req.body;
+        // Validation
+    if (!name || !Array.isArray(learnSubjects) || !Array.isArray(teachSubjects)) {
+      return res.status(400).json({ error: "Invalid profile data" });
+    }
+
+    if (learnSubjects.length === 0 && teachSubjects.length === 0) {
+      return res.status(400).json({ error: "Select at least one subject" });
+    }
+
+    // Prevent duplicates
+    const existingUser = await prisma.user.findUnique({
+      where: { id: req.user.id },
+    });
+
+
+
     const user = await prisma.user.create({
       data: { 
+        id: req.user.id,
         name, 
         learnSubjects: learnSubjects || [],
         teachSubjects: teachSubjects || []
       },
     });
+    console.log("user Created",user)
     res.json(user);
   } catch (error) {
     console.error(error);
