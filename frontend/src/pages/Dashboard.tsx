@@ -1,4 +1,10 @@
 import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
@@ -11,6 +17,11 @@ export default function Dashboard() {
     }
     setUser(JSON.parse(storedUser));
   }, []);
+  const handleLogout = async () => {
+  await supabase.auth.signOut();   // 🔐 invalidate session
+  localStorage.removeItem("user"); // 🧹 clear cached profile
+  window.location.href = "/";      // 🔁 back to landing/login
+};
 
   if (!user) {
     return <div style={{ padding: 40 }}>Loading...</div>;
@@ -78,6 +89,24 @@ export default function Dashboard() {
           >
             Edit Subjects
           </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              marginTop: 20,
+              marginLeft: 12,
+              padding: "10px 18px",
+              backgroundColor: "transparent",
+              color: "#ffffff",
+              border: "2px solid rgba(255,255,255,0.6)",
+              borderRadius: 10,
+              cursor: "pointer",
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            Log out
+          </button>
+
         </div>
 
         {/* Subjects */}

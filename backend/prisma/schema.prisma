@@ -8,10 +8,9 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id
   name      String
   createdAt DateTime @default(now())
-
   learnSubjects   String[] // Subjects I want to learn
   teachSubjects   String[] // Subjects I can teach
   chatsAsLearner   Chat[]    @relation("LearnerChats")

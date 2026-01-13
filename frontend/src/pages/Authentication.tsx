@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { api } from "../services/api";
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -32,7 +33,19 @@ export default function AuthModal({ onClose }: Props) {
         const { data,error } = await supabase.auth.signInWithPassword({ email, password });
         if(error) throw error;
           localStorage.setItem("supabase_token", data.session.access_token);
-           window.location.href = "/dashboard";
+          //  window.location.href = "/dashboard";
+               // 🔑 Check if profile exists
+            const profile = await api("/me");
+
+            if (profile) {
+              // ✅ Existing user → dashboard
+              localStorage.setItem("user", JSON.stringify(profile));
+              window.location.href = "/dashboard";
+              } else {
+                // 🆕 New user → registration
+                window.location.href = "/registration";
+              }
+
       }
       onClose();
     } catch (err: any) {

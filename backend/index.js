@@ -32,20 +32,22 @@ app.post("/users",authenticate, async (req, res) => {
   try {
     
     const { name, learnSubjects, teachSubjects } = req.body;
-        // Validation
-    if (!name || !Array.isArray(learnSubjects) || !Array.isArray(teachSubjects)) {
-      return res.status(400).json({ error: "Invalid profile data" });
-    }
+    //     // Validation
+    // if (!name || !Array.isArray(learnSubjects) || !Array.isArray(teachSubjects)) {
+    //   return res.status(400).json({ error: "Invalid profile data" });
+    // }
 
-    if (learnSubjects.length === 0 && teachSubjects.length === 0) {
-      return res.status(400).json({ error: "Select at least one subject" });
-    }
+    // if (learnSubjects.length === 0 && teachSubjects.length === 0) {
+    //   return res.status(400).json({ error: "Select at least one subject" });
+    // }
 
     // Prevent duplicates
     const existingUser = await prisma.user.findUnique({
       where: { id: req.user.id },
     });
-
+    if (existingUser) {
+      return res.status(409).json({ error: "User already exists" });
+    }
 
 
     const user = await prisma.user.create({
@@ -62,6 +64,16 @@ app.post("/users",authenticate, async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Failed to create user" });
   }
+});
+
+
+app.get("/me", authenticate, async (req, res) => {
+
+  const user = await prisma.user.findUnique({
+    where: { id: req.user.id },
+  });
+
+  res.json(user); // null if profile not created yet
 });
 
 // app.post("/users", async (req, res) => {
