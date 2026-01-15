@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-
+import { useNavigate } from "react-router-dom";
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -8,11 +8,13 @@ const supabase = createClient(
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
-      window.location.href = "/";
+      navigate("/");
+
       return;
     }
     setUser(JSON.parse(storedUser));
@@ -20,7 +22,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
   await supabase.auth.signOut();   // 🔐 invalidate session
   localStorage.removeItem("user"); // 🧹 clear cached profile
-  window.location.href = "/";      // 🔁 back to landing/login
+  navigate("/");
 };
 
   if (!user) {
@@ -74,7 +76,7 @@ export default function Dashboard() {
           </p>
 
           <button
-            onClick={() => (window.location.href = "/edit-subjects")}
+            onClick={() => navigate('/edit-subjects')}
             style={{
               marginTop: 20,
               padding: "10px 18px",
@@ -166,6 +168,7 @@ export default function Dashboard() {
             description="Browse tutors available for your learning subjects."
             bg="#e0ecff"
             href="/tutors"
+          
           />
 
           <FeatureCard

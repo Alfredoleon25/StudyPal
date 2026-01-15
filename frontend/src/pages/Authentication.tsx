@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
+
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -16,6 +18,7 @@ export default function AuthModal({ onClose }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleAuth = async () => {
     setLoading(true);
@@ -26,13 +29,14 @@ export default function AuthModal({ onClose }: Props) {
         const { data ,error } = await supabase.auth.signUp({ email, password });
         if(error) throw error;
         if (data.session){
-          localStorage.setItem("supabase_token", data.session.access_token);
-           window.location.href = "/registration";}
-
+          // localStorage.setItem("supabase_token", data.session.access_token);
+          navigate("/dashboard");
+          //  window.location.href = "/registration";}}
+        }
       } else {
-        const { data,error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if(error) throw error;
-          localStorage.setItem("supabase_token", data.session.access_token);
+          // localStorage.setItem("supabase_token", data.session.access_token);
           //  window.location.href = "/dashboard";
                // 🔑 Check if profile exists
             const profile = await api("/me");
@@ -40,10 +44,12 @@ export default function AuthModal({ onClose }: Props) {
             if (profile) {
               // ✅ Existing user → dashboard
               localStorage.setItem("user", JSON.stringify(profile));
-              window.location.href = "/dashboard";
+              navigate("/dashboard");
+              // window.location.href = "/dashboard";
               } else {
                 // 🆕 New user → registration
-                window.location.href = "/registration";
+                navigate("/registration");
+                // window.location.href = "/registration";
               }
 
       }

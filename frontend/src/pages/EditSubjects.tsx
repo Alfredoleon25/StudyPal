@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
-
+import { useNavigate } from "react-router-dom";
 const SUBJECTS = [
   { name: "Calculus", icon: "∫" },
   { name: "Physics", icon: "⚛️" },
@@ -19,11 +19,11 @@ export default function EditSubjects() {
   const [teachSubjects, setTeachSubjects] = useState<string[]>([]);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
-      window.location.href = "/";
+      navigate("/");
       return;
     }
     const userData = JSON.parse(storedUser);
@@ -85,7 +85,7 @@ export default function EditSubjects() {
       console.log("User updated:", updatedUser);
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } catch (error: any) {
       console.error("Error updating subjects:", error);
       alert(error.message || "Failed to update subjects");
@@ -95,7 +95,8 @@ export default function EditSubjects() {
   };
 
   const goBack = () => {
-    window.location.href = "/dashboard";
+    navigate("/dashboard");
+    
   };
 
   if (!user) {

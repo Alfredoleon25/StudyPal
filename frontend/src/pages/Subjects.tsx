@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const SUBJECTS = [
   { name: "Calculus", icon: "∫" },
@@ -18,12 +19,12 @@ export default function Subjects() {
   const [learnSubjects, setLearnSubjects] = useState<string[]>([]);
   const [teachSubjects, setTeachSubjects] = useState<string[]>([]);
   const [tempUser, setTempUser] = useState<{ name: string } | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const temp = localStorage.getItem("tempuser");
 
     if (!temp) {
-      window.location.href = "/";
+      navigate("/")
       return;
     }
     setTempUser(JSON.parse(temp));
@@ -66,7 +67,7 @@ export default function Subjects() {
     });
     localStorage.setItem("user",JSON.stringify(user))
     localStorage.removeItem("tempuser")
-    window.location.href = "/dashboard";
+    navigate("/dashboard");
 
   };
 
@@ -213,7 +214,7 @@ export default function Subjects() {
         }}
       >
         <button
-          onClick={() => (window.location.href = "/registration")}
+          onClick={() => navigate('/')}
           style={{
             padding: "14px 32px",
             borderRadius: 10,

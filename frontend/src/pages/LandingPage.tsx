@@ -1,9 +1,6 @@
 import { useRef } from 'react';
-
-
 import { useState } from 'react';
 import AuthModal from './Authentication';
-
 
 export default function LandingPage() {
   // Refs for scrolling
@@ -593,7 +590,7 @@ export default function LandingPage() {
           Join thousands of students already helping each other succeed
         </p>
         <button
-          onClick={() => window.location.href = "/"}
+          onClick={() => setShowAuth(true)}
           style={{
             padding: "18px 50px",
             backgroundColor: "white",

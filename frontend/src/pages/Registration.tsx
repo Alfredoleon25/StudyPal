@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Registration() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleContinue = () => {
     if (!name.trim()) {
@@ -11,7 +13,8 @@ export default function Registration() {
     }
     setError("");
     localStorage.setItem("tempuser", JSON.stringify({ name }));
-    window.location.href = "/subjects";
+
+    navigate("/subjects");
   };
 
   return (
@@ -38,7 +41,7 @@ export default function Registration() {
 
       {/* Back to Home Link */}
       <button
-        onClick={() => window.location.href = "/"}
+        onClick={() => navigate('/')}
         style={{
           position: "absolute",
           top: 30,

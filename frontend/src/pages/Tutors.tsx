@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Tutors() {
   const [tutors, setTutors] = useState<any[]>([]);
   // const [user, setUser] = useState<any>(null);
   const user = JSON.parse(localStorage.getItem("user") || "null");
+  const navigate = useNavigate();
   useEffect(() => {
     // console.log("fetch the users",user)
     // const storedUser = localStorage.getItem("user");
@@ -40,7 +42,7 @@ export default function Tutors() {
       );
 
       if (existingChat) {
-        window.location.href = `/chat/${existingChat.id}`;
+        navigate(`/chat/${existingChat.id}`);
       } else {
         const pendingChat = {
           learnerId: user.id,
@@ -49,7 +51,7 @@ export default function Tutors() {
           subject: user.learnSubjects[0],
         };
         localStorage.setItem("pendingChat", JSON.stringify(pendingChat));
-        window.location.href = `/chat/new`;
+        navigate(`/chat/new`);
       }
     } catch {
       alert("Failed to start chat");
@@ -108,7 +110,7 @@ export default function Tutors() {
           </h1>
 
           <button
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() => navigate("/dashboard")}
             style={{
               padding: "8px 14px",
               backgroundColor: "#fff",
@@ -151,7 +153,7 @@ export default function Tutors() {
           ))}
 
           <button
-            onClick={() => (window.location.href = "/edit-subjects")}
+            onClick={() => navigate("/edit-subjects")}
             style={{
               padding: "6px 12px",
               backgroundColor: "#f5f5f5",

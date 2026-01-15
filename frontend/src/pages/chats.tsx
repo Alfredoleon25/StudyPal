@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface Chat {
   id: string;
@@ -13,10 +14,11 @@ interface Chat {
 export default function ChatList() {
   const [chats, setChats] = useState<Chat[]>([]);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || !user.id) {
-      window.location.href = "/";
+      navigate("/");
       return;
     }
     fetchChats();
@@ -33,7 +35,8 @@ export default function ChatList() {
   };
 
   const openChat = (chatId: string) => {
-    window.location.href = `/chat/${chatId}`;
+    navigate(`/chat/${chatId}`);
+
   };
 
   return (
@@ -84,7 +87,7 @@ export default function ChatList() {
           </h1>
 
           <button
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() => navigate("/dashboard")}
             style={{
               padding: "8px 14px",
               backgroundColor: "#fff",

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface Request {
   id: string;
@@ -18,10 +19,11 @@ export default function TutorRequests() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const navigate = useNavigate();
 
   useEffect(() => {
         if (!user || !user.id) {
-      window.location.href = "/";
+      navigate("/");
       return;
     }
     fetchRequests();
@@ -40,7 +42,7 @@ export default function TutorRequests() {
   };
 
   const openChat = (chatId: string) => {
-    window.location.href = `/chat/${chatId}`;
+    navigate(`/chat/${chatId}`);
   };
 
   if (loading) {
@@ -90,7 +92,7 @@ export default function TutorRequests() {
         </h1>
 
              <button
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() => navigate("/dashboard")}
             style={{
               padding: "8px 14px",
               backgroundColor: "#fff",
