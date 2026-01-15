@@ -17,6 +17,12 @@ export default function ProtectedRoute({
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
+      console.log("Session data:", data.session?.user);
+
+    if(data.session?.user.user_metadata?.email_verified === true){
+          // return <Navigate to="/dashboard" replace />;
+      console.log("User is authenticated:", data.session?.user);
+    }
       setAuthenticated(!!data.session);
       setLoading(false);
     });

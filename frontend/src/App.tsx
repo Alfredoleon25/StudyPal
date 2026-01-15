@@ -10,7 +10,7 @@ import ChatWindow from "./pages/chat/:chatId";
 import ChatList from "./pages/chats";
 import LandingPage from "./pages/LandingPage";
 import ProtectedRoute from "./services/ProtectedRoute";
-import OnboardingRoute from "./services/ProfileGuard";
+// import OnboardingRoute from "./services/ProfileGuard";
 
 
 export default App
@@ -20,8 +20,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/my-requests" element={<ProtectedRoute><LearnerRequests /></ProtectedRoute>} />
-        <Route path="/registration" element={<OnboardingRoute><Registration /></OnboardingRoute>} />
-        <Route path="/subjects" element={<OnboardingRoute><Subjects /></OnboardingRoute>} />
+        {/* <Route path="/registration" element={<OnboardingRoute><Registration /></OnboardingRoute>} /> */}
+                <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
+        {/* <Route path="/subjects" element={<OnboardingRoute><Subjects /></OnboardingRoute>} /> */}
+                <Route path="/subjects" element={<ProtectedRoute><Subjects /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/edit-subjects" element={<ProtectedRoute><EditSubjects /></ProtectedRoute>} />
         <Route path="/tutors" element={<ProtectedRoute><Tutors /></ProtectedRoute>} />

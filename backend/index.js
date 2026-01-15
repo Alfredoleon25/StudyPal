@@ -6,9 +6,15 @@ const { Pool } = require("pg");
 
 const authenticate = require('./auth');
 
-
+console.log("Starting backend...");
+require('dotenv').config();
 // Create PostgreSQL connection pool
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL 
+  ,ssl: {
+    // This allows connecting to Supabase's self-signed certificates
+    rejectUnauthorized: false 
+  }
+});
 
 // Create adapter
 const adapter = new PrismaPg(pool);
@@ -29,16 +35,6 @@ app.post("/users",authenticate, async (req, res) => {
   try {
     
     const { name, learnSubjects, teachSubjects } = req.body;
-    //     // Validation
-    // if (!name || !Array.isArray(learnSubjects) || !Array.isArray(teachSubjects)) {
-    //   return res.status(400).json({ error: "Invalid profile data" });
-    // }
-
-    // if (learnSubjects.length === 0 && teachSubjects.length === 0) {
-    //   return res.status(400).json({ error: "Select at least one subject" });
-    // }
-
-    // Prevent duplicates
     const existingUser = await prisma.user.findUnique({
       where: { id: req.user.id },
     });
@@ -292,7 +288,7 @@ app.post("/chats/:chatId/messages", authenticate, async (req, res) => {
 });
 
 
-const PORT = 8000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
 });

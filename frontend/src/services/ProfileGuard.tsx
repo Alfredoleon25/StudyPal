@@ -31,9 +31,9 @@ const user = session?.user;
       }
       console.log(user.user_metadata?.onboarding_completed)
       // ❌ onboarding already completed → dashboard
-      if (user.user_metadata?.email_verified === true) {
+      if (user.user_metadata?.onboarding_completed === true) {
         console.log("Onboarding completed, redirecting to dashboard.");
-        setRedirect("/dashboard");
+        // setRedirect("/dashboard");
         setLoading(false);
         return;
       }

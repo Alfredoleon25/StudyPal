@@ -30,7 +30,7 @@ export default function AuthModal({ onClose }: Props) {
         if(error) throw error;
         if (data.session){
           // localStorage.setItem("supabase_token", data.session.access_token);
-          navigate("/dashboard");
+          navigate("/registration");
           //  window.location.href = "/registration";}}
         }
       } else {
@@ -215,5 +215,6 @@ const styles = {
     border: "none",
     fontSize: 20,
     cursor: "pointer",
+    color:"#666"
   } as React.CSSProperties,
 };
