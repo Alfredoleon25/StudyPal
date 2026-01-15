@@ -73,24 +73,8 @@ app.get("/me", authenticate, async (req, res) => {
   res.json(user); // null if profile not created yet
 });
 
-// app.post("/users", async (req, res) => {
 
-//   try {
-//     const { name, role, subjects} = req.body;
-//     const user = await prisma.user.create({
-//       data: { name, role, subjects},
-//     });
-//     res.json(user);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to create user" });
-//   }
-// });
-
-/* -----------------------
-   Get Tutors by Subject
------------------------- */
-app.get("/tutors", async (req, res) => {
+app.get("/tutors", authenticate,async (req, res) => {
   try {
     const { subjects } = req.query;
     
@@ -120,7 +104,7 @@ app.get("/tutors", async (req, res) => {
   }
 });
 
-app.patch("/users/:id", async (req, res) => {
+app.patch("/users/:id", authenticate, async (req, res) => {
   try {
     const { id } = req.params;
     const { learnSubjects, teachSubjects } = req.body;
@@ -141,15 +125,9 @@ app.patch("/users/:id", async (req, res) => {
   }
 });
 
-app.post("/chats", async (req, res) => {
+app.post("/chats", authenticate, async (req, res) => {
   try {
     const { learnerId, tutorId, subject } = req.body;
-
-  const token = req.headers.authorization?.split(" ")[1];
-  const supabaseUser = await getUserFromToken(token);
-
-  if (!supabaseUser) return res.status(401).json({ error: "Unauthorized" });
-
   
     // Check if chat already exists
     const existingChat = await prisma.chat.findUnique({
@@ -184,7 +162,7 @@ app.post("/chats", async (req, res) => {
 /* -----------------------
    Get Chats for User
 ------------------------ */
-app.get("/chats/:userId", async (req, res) => {
+app.get("/chats/:userId", authenticate, async (req, res) => {
   try {
     const { userId } = req.params;
     
@@ -215,7 +193,7 @@ app.get("/chats/:userId", async (req, res) => {
 /* -----------------------
    Get Requests Setn by Tutor
 ------------------------ */
-app.get("/requests/tutor/:tutorId", async (req, res) => {
+app.get("/requests/tutor/:tutorId", authenticate, async (req, res) => {
   try {
     const { tutorId } = req.params;
     
@@ -241,7 +219,7 @@ app.get("/requests/tutor/:tutorId", async (req, res) => {
 /* -----------------------
    Get Requests Sent by Learner
 ------------------------ */
-app.get("/requests/learner/:learnerId", async (req, res) => {
+app.get("/requests/learner/:learnerId", authenticate, async (req, res) => {
   try {
     const { learnerId } = req.params;
     console.log("Fetching requests from learnerId:", learnerId);
@@ -268,7 +246,7 @@ app.get("/requests/learner/:learnerId", async (req, res) => {
 /* -----------------------
    Get Messages in a Chat
 ------------------------ */
-app.get("/chats/:chatId/messages", async (req, res) => {
+app.get("/chats/:chatId/messages", authenticate, async (req, res) => {
   try {
     const { chatId } = req.params;
     
@@ -290,7 +268,7 @@ app.get("/chats/:chatId/messages", async (req, res) => {
 /* -----------------------
    Send Message in Chat
 ------------------------ */
-app.post("/chats/:chatId/messages", async (req, res) => {
+app.post("/chats/:chatId/messages", authenticate, async (req, res) => {
   try {
     const { chatId } = req.params;
     const { senderId, content } = req.body;
