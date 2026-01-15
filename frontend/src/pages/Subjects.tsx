@@ -214,7 +214,7 @@ export default function Subjects() {
         }}
       >
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/registration')}
           style={{
             padding: "14px 32px",
             borderRadius: 10,
