@@ -25,9 +25,6 @@ app.use(cors(
 ));
 app.use(express.json());
 
-/* -----------------------
-   Create User
------------------------- */
 app.post("/users",authenticate, async (req, res) => {
   try {
     
@@ -122,43 +119,7 @@ app.get("/tutors", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch tutors" });
   }
 });
-// app.get("/tutors", async (req, res) => {
-//   try {
-//     const { subject } = req.query;
-//     console.log("this is the subject",subject)
-//     const subjectArray = subject.split(',');
-//     const tutors = await prisma.user.findMany({
-//       where: {
-//         role: "tutor",
-//         subjects: { hasSome: subjectArray },
-//       },
-//     });
-//     console.log("this is are the tutors that for these subjects",tutors)
-//     res.json(tutors);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to fetch tutors" });
-//   }
-// });
-/* -----------------------
-   Update User Subjects
------------------------- */
-// app.patch("/users/:id", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { subjects } = req.body;
-    
-//     const user = await prisma.user.update({
-//       where: { id },
-//       data: { subjects },
-//     });
-    
-//     res.json(user);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to update user" });
-//   }
-// });
+
 app.patch("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -180,69 +141,16 @@ app.patch("/users/:id", async (req, res) => {
   }
 });
 
-/* -----------------------
-   Create Help Request
------------------------- */
-// app.post("/requests", async (req, res) => {
-//   try {
-//     const { learnerId, tutorId, subject, message } = req.body;
-//     const request = await prisma.request.create({
-//       data: { learnerId, tutorId, subject, message },
-//     });
-//     res.json(request);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to create request" });
-//   }
-// });
-/* -----------------------
-   Create Help Request & Chat
------------------------- */
-// app.post("/requests", async (req, res) => {
-//   try {
-//     const { learnerId, tutorId, subject} = req.body;
-    
-//     // Check if chat already exists
-//     let chat = await prisma.chat.findUnique({
-//       where: {
-//         learnerId_tutorId_subject: {
-//           learnerId,
-//           tutorId,
-//           subject,
-//         }
-//       }
-//     });
-    
-//     // If no chat exists, create one
-//     if (!chat) {
-//       chat = await prisma.chat.create({
-//         data: {
-//           learnerId,
-//           tutorId,
-//           subject,
-//         }
-//       });
-      
-//       // Create first message in the chat
-//       // await prisma.message.create({
-//       //   data: {
-//       //     chatId: chat.id,
-//       //     senderId: learnerId,
-//       //     content: message,
-//       //   }
-//       // });
-//     }
-    
-//     res.json({ chatId: chat.id });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to create request" });
-//   }
-// });
 app.post("/chats", async (req, res) => {
   try {
     const { learnerId, tutorId, subject } = req.body;
-    
+
+  const token = req.headers.authorization?.split(" ")[1];
+  const supabaseUser = await getUserFromToken(token);
+
+  if (!supabaseUser) return res.status(401).json({ error: "Unauthorized" });
+
+  
     // Check if chat already exists
     const existingChat = await prisma.chat.findUnique({
       where: {
@@ -405,39 +313,7 @@ app.post("/chats/:chatId/messages", async (req, res) => {
   }
 });
 
-/* -----------------------
-   Get Requests for Tutor
-// ------------------------ */
-// app.get("/requests/:tutorId", async (req, res) => {
-//   try {
-//     const { tutorId } = req.params; 
-//     const requests = await prisma.chat.findMany({
-//       where: { tutorId },
-//         include: {
-//           learner: {
-//             select: {
-//               name: true,
-//             },
-          
-          
-//           messages:{
-//             select:{
-//               content: true,
-//             }
-//           }
-//         }
-//       }
-//     });
-//     res.json(requests);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to fetch requests" });
-//   }
-// });
 
-/* -----------------------
-   Server Start
------------------------- */
 const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);

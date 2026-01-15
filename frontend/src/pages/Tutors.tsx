@@ -3,11 +3,18 @@ import { api } from "../services/api";
 
 export default function Tutors() {
   const [tutors, setTutors] = useState<any[]>([]);
-  const user = JSON.parse(localStorage.getItem("user")!);
-
+  // const [user, setUser] = useState<any>(null);
+  const user = JSON.parse(localStorage.getItem("user") || "null");
   useEffect(() => {
-    if (!user || !user.learnSubjects?.length) return;
+    // console.log("fetch the users",user)
+    // const storedUser = localStorage.getItem("user");
 
+    // if (!storedUser) {
+    //   window.location.href = "/";
+    //   console.error("No user found in localStorage");
+    //   return;
+    // }
+    // setUser(JSON.parse(storedUser));
     const fetchFilteredTutors = async () => {
       try {
         const subjectsParam = user.learnSubjects.join(",");
@@ -48,7 +55,9 @@ export default function Tutors() {
       alert("Failed to start chat");
     }
   };
-
+  if (!user) {
+    return <div style={{ padding: 40 }}>Loading...</div>;
+  }
   return (
     <div
       style={{

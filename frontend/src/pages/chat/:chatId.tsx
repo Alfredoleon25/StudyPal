@@ -21,6 +21,10 @@ export default function ChatWindow() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
+    if (!user || !user.id) {
+      window.location.href = "/";
+      return;
+    }
     if (chatId === "new") {
       const pending = localStorage.getItem("pendingChat");
       if (!pending) {

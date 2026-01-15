@@ -15,6 +15,10 @@ export default function ChatList() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
+    if (!user || !user.id) {
+      window.location.href = "/";
+      return;
+    }
     fetchChats();
   }, []);
 
