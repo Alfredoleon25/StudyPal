@@ -1,6 +1,6 @@
 // const API_URL = "http://localhost:10000";
-// const API_URL = "https://studypal-zy0x.onrender.com"
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = "https://studypal-zy0x.onrender.com"
+// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
