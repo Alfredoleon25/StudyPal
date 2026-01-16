@@ -97,7 +97,7 @@ export default function ChatWindow() {
 
         const newChat = await chatResponse;
 
-        const messageResponse = await api(`/chats/${newChat.id}/messages`, {
+        await api(`/chats/${newChat.id}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -106,7 +106,7 @@ export default function ChatWindow() {
           }),
         });
 
-        const message = await messageResponse;
+        // const message = await messageResponse;
         localStorage.removeItem("pendingChat");
         window.location.href = `/chat/${newChat.id}`;
       } else {
