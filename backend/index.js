@@ -25,7 +25,7 @@ const prisma = new PrismaClient({ adapter });
 const app = express();
 app.use(cors(
   {
-  origin: '*', // Allow all origins for development
+  origin: 'https://study-pal-gamma-two.vercel.app', // Allow all origins for development
   credentials: true
 }
 ));
