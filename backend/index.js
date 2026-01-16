@@ -6,8 +6,6 @@ const { Pool } = require("pg");
 
 const authenticate = require('./auth');
 
-console.log("Starting backend...");
-require('dotenv').config();
 // Create PostgreSQL connection pool
 const pool = new Pool({ connectionString: process.env.DATABASE_URL 
   ,ssl: {
