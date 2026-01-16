@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -19,24 +20,28 @@ export default function ChatWindow() {
   const [pendingChat, setPendingChat] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || !user.id) {
-      window.location.href = "/";
+      navigate("/");
       return;
     }
     if (chatId === "new") {
+      console.log("Setting up new chat");
       const pending = localStorage.getItem("pendingChat");
       if (!pending) {
-        window.location.href = "/tutors";
+        navigate("/tutors");
         return;
       }
       const pendingData = JSON.parse(pending);
+      console.log("Pending chat data:", pendingData);
       setPendingChat(pendingData);
       setOtherUserName(pendingData.tutorName);
       setIsNewChat(true);
       setLoading(false);
     } else {
+      console.log("Loading existing chat with ID:", chatId);
       fetchMessages();
       fetchChatDetails();
       const interval = setInterval(fetchMessages, 3000);
@@ -69,6 +74,7 @@ export default function ChatWindow() {
 
   const fetchMessages = async () => {
     try {
+      console.log("Fetching messages for chatId:", chatId);
       const response = await api(`/chats/${chatId}/messages`);
       const data = await response;
       setMessages(data);
@@ -84,10 +90,10 @@ export default function ChatWindow() {
     if (!newMessage.trim()) return;
 
     try {
+      console.log("Sending message:", newMessage);
       if (isNewChat && pendingChat) {
         const chatResponse = await api("/chats", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             learnerId: pendingChat.learnerId,
             tutorId: pendingChat.tutorId,
@@ -99,7 +105,6 @@ export default function ChatWindow() {
 
         await api(`/chats/${newChat.id}/messages`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             senderId: user.id,
             content: newMessage,
@@ -108,11 +113,10 @@ export default function ChatWindow() {
 
         // const message = await messageResponse;
         localStorage.removeItem("pendingChat");
-        window.location.href = `/chat/${newChat.id}`;
+        navigate(`/chat/${newChat.id}`);
       } else {
         const response = await api(`/chats/${chatId}/messages`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             senderId: user.id,
             content: newMessage,
@@ -175,7 +179,7 @@ export default function ChatWindow() {
           }}
         >
           <button
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() => navigate("/dashboard")}
             style={{
               padding: "10px 20px",
               cursor: "pointer",
