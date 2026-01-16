@@ -104,7 +104,8 @@ return (
   <div
     style={{
       minHeight: "100vh",
-      width: "100vw",
+    width:"100%",
+      overflowX:"hidden",
       backgroundColor: "#555a60",
       background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       padding: 40,

@@ -134,7 +134,45 @@ export default function ChatWindow() {
   };
 
   if (loading) {
-    return <div style={{ padding: 20 }}>Loading chat...</div>;
+return (
+  <div style={{ 
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 60, 
+    textAlign: "center",
+    fontSize: 18,
+    color: "#666",
+    minHeight: "200px"
+  }}>
+    {/* The Spinner Circle */}
+    <div className="loader-circle" style={{
+      width: 50,
+      height: 50,
+      border: "5px solid rgba(102, 126, 234, 0.1)", // Light track
+      borderTop: "5px solid #667eea", // Purple active part
+      borderRadius: "50%",
+      marginBottom: 20
+    }} />
+    
+    <div style={{ fontWeight: "500", color: "#764ba2" }}>
+      Loading requests...
+    </div>
+
+    {/* Add this style block if you haven't already included it in your page */}
+    <style>{`
+      .loader-circle {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `}</style>
+  </div>
+);
   }
 
   return (

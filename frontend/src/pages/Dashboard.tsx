@@ -337,7 +337,7 @@ export default function Dashboard() {
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         minHeight: "100vh",
         fontFamily: "system-ui, -apple-system, sans-serif",
-        width: "100vw",
+         width:"100%",
       }}
     >
       <div

@@ -77,7 +77,8 @@ export default function Subjects() {
     <div
       style={{
         minHeight: "100vh",
-        width: "100vw",
+      width:"100%",
+      overflowX:"hidden",
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         backgroundColor: "#555a60", // dark gray background covers whole page
         padding: 40,

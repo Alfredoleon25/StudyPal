@@ -43,7 +43,7 @@ export default function ChatList() {
     <div
       style={{
         minHeight: "100vh",
-        width: "100vw",
+        width:"100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",

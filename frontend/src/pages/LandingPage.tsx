@@ -15,7 +15,9 @@ export default function LandingPage() {
 
   return (
     <div style={{
-      fontFamily: "system-ui, -apple-system, sans-serif", width:"100vw",
+      fontFamily: "system-ui, -apple-system, sans-serif", 
+      width:"100%",
+      overflowX:"hidden"
     }}>
       {/* Hero Section */}
       <div style={{
@@ -261,7 +263,7 @@ export default function LandingPage() {
             backgroundColor: "rgba(255,255,255,0.1)",
             backdropFilter: "blur(20px)",
             borderRadius: 20,
-            border: "1px solid rgba(255,255,255,0.2)"
+            border: "1px solid rgba(255,255,255,0.2)",
           }}>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 36, fontWeight: "bold", color: "white" }}>1000+</div>
