@@ -29,7 +29,6 @@ export default function Registration() {
       position: "relative",
       overflow: "hidden",
       width:"100%",
-      overflowX:"hidden"
     }}>
       {/* Background Pattern */}
       <div style={{

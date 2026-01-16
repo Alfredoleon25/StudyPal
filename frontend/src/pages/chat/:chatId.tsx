@@ -185,7 +185,7 @@ return (
         alignItems: "center",
         background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
         fontFamily: "system-ui, -apple-system, sans-serif",
-        overflow: "hidden",
+        // overflow: "hidden",
       }}
     >
       <div

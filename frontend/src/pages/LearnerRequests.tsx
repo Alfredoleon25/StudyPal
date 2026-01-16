@@ -93,7 +93,6 @@ return (
       padding: 40,
       fontFamily: "system-ui, -apple-system, sans-serif",
       background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
-      overflowX: "hidden", // prevent horizontal scroll
       overflowY: "auto",
       boxSizing: "border-box",
       display: "flex",

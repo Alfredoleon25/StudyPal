@@ -17,7 +17,6 @@ export default function LandingPage() {
     <div style={{
       fontFamily: "system-ui, -apple-system, sans-serif", 
       width:"100%",
-      overflowX:"hidden"
     }}>
       {/* Hero Section */}
       <div style={{

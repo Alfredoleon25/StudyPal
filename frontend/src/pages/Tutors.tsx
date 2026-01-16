@@ -58,58 +58,19 @@ export default function Tutors() {
     }
   };
   if (!user) {
-return (
-  <div style={{ 
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 60, 
-    textAlign: "center",
-    fontSize: 18,
-    color: "#666",
-    minHeight: "200px"
-  }}>
-    {/* The Spinner Circle */}
-    <div className="loader-circle" style={{
-      width: 50,
-      height: 50,
-      border: "5px solid rgba(102, 126, 234, 0.1)", // Light track
-      borderTop: "5px solid #667eea", // Purple active part
-      borderRadius: "50%",
-      marginBottom: 20
-    }} />
-    
-    <div style={{ fontWeight: "500", color: "#764ba2" }}>
-      Loading requests...
-    </div>
-
-    {/* Add this style block if you haven't already included it in your page */}
-    <style>{`
-      .loader-circle {
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `}</style>
-  </div>
-);
+    return <div style={{ padding: 40 }}>Loading...</div>;
   }
   return (
     <div
       style={{
         minHeight: "100vh",
          width:"100%",
-      overflowX:"hidden",
         display: "flex",
         alignItems: "auto-flex",
         justifyContent: "center",
         backgroundColor: "#555a60",
                 // background: "linear-gradient(135deg, #667eea 0%, #764ba2 80%)",
-                        background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
+        background: "linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)",
         fontFamily: "system-ui, -apple-system, sans-serif",
         overflow:"auto",
         paddingTop: 40,
