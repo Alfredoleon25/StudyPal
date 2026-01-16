@@ -256,8 +256,6 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// Assuming your api utility is in this path
-// import { api } from "../services/api"; 
 
 const SUBJECTS = [
   { name: "Calculus", icon: "∫" },
@@ -303,86 +301,68 @@ export default function Subjects() {
 
   const createUser = async () => {
     if (learnSubjects.length === 0 && teachSubjects.length === 0) {
-      return alert("Please select at least one subject to learn or teach.");
+      return alert("Please select at least one subject.");
     }
-    if (!tempUser) return;
-
-    try {
-      // Logic for your API call goes here
-      // const user = await api("/users", { ... });
-      
-      // Mocking the success for now:
-      const mockUser = { name: tempUser.name, learnSubjects, teachSubjects };
-      localStorage.setItem("user", JSON.stringify(mockUser));
-      localStorage.removeItem("tempuser");
-      navigate("/dashboard");
-    } catch (e) {
-      console.error("Signup failed", e);
-    }
+    // Your API logic here...
+    navigate("/dashboard");
   };
 
   if (!tempUser) return null;
 
   return (
-    <div className="subjects-wrapper">
+    <div className="sub-wrapper">
       <div className="bg-pattern" />
 
-      <div className="subjects-container">
-        <header className="subjects-header">
-          <h1>Hi, {tempUser.name} 👋</h1>
-          <p>Customize your profile: What are you looking for?</p>
+      <div className="sub-container">
+        <header className="sub-header">
+          <h1>Hi, {tempUser.name}</h1>
+          <p>What brings you to StudyPal today?</p>
         </header>
 
-        <div className="selection-grid">
-          {/* LEARN SECTION */}
-          <div className="column">
-            <h2 className="column-title learn-text">📚 I want to Learn</h2>
-            <div className="subject-list">
-              {SUBJECTS.map((s) => {
-                const active = learnSubjects.includes(s.name);
-                return (
-                  <div
-                    key={`learn-${s.name}`}
-                    onClick={() => toggleLearnSubject(s.name)}
-                    className={`subject-card ${active ? 'active-learn' : ''}`}
-                  >
-                    <span className="subject-icon">{s.icon}</span>
-                    <span className="subject-name">{s.name}</span>
-                  </div>
-                );
-              })}
+        <div className="sub-grid">
+          {/* LEARN COLUMN */}
+          <div className="sub-column">
+            <h2 className="column-title learn-color">📚 I want to Learn</h2>
+            <div className="card-stack">
+              {SUBJECTS.map((s) => (
+                <button
+                  key={`l-${s.name}`}
+                  className={`sub-card ${learnSubjects.includes(s.name) ? 'active-learn' : ''}`}
+                  onClick={() => toggleLearnSubject(s.name)}
+                >
+                  <span className="sub-icon">{s.icon}</span>
+                  <span className="sub-label">{s.name}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* TEACH SECTION */}
-          <div className="column">
-            <h2 className="column-title teach-text">👨‍🏫 I can Teach</h2>
-            <div className="subject-list">
-              {SUBJECTS.map((s) => {
-                const active = teachSubjects.includes(s.name);
-                return (
-                  <div
-                    key={`teach-${s.name}`}
-                    onClick={() => toggleTeachSubject(s.name)}
-                    className={`subject-card ${active ? 'active-teach' : ''}`}
-                  >
-                    <span className="subject-icon">{s.icon}</span>
-                    <span className="subject-name">{s.name}</span>
-                  </div>
-                );
-              })}
+          {/* TEACH COLUMN */}
+          <div className="sub-column">
+            <h2 className="column-title teach-color">👨‍🏫 I can Teach</h2>
+            <div className="card-stack">
+              {SUBJECTS.map((s) => (
+                <button
+                  key={`t-${s.name}`}
+                  className={`sub-card ${teachSubjects.includes(s.name) ? 'active-teach' : ''}`}
+                  onClick={() => toggleTeachSubject(s.name)}
+                >
+                  <span className="sub-icon">{s.icon}</span>
+                  <span className="sub-label">{s.name}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        <footer className="subjects-footer">
+        <footer className="sub-footer">
           <button className="btn-back" onClick={() => navigate('/registration')}>Back</button>
-          <button className="btn-continue" onClick={createUser}>Complete Setup</button>
+          <button className="btn-finish" onClick={createUser}>Finish Setup</button>
         </footer>
       </div>
 
       <style>{`
-        .subjects-wrapper {
+        .sub-wrapper {
           min-height: 100vh;
           width: 100%;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -404,113 +384,95 @@ export default function Subjects() {
           pointer-events: none;
         }
 
-        .subjects-container {
-          width: 100%;
-          max-width: 1000px;
-          position: relative;
-          z-index: 2;
-        }
+        .sub-container { width: 100%; max-width: 900px; position: relative; z-index: 2; }
 
-        .subjects-header {
-          text-align: center;
-          color: white;
-          margin-bottom: 40px;
-        }
+        .sub-header { text-align: center; color: white; margin-bottom: 40px; }
+        .sub-header h1 { font-size: clamp(28px, 7vw, 42px); font-weight: 800; margin: 0; }
+        .sub-header p { font-size: 18px; margin-top: 10px; opacity: 0.9; }
 
-        .subjects-header h1 { font-size: 42px; font-weight: 800; margin: 0 0 10px 0; }
-        .subjects-header p { font-size: 18px; opacity: 0.9; }
-
-        .selection-grid {
+        /* THE RESPONSIVE GRID */
+        .sub-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 30px;
-          margin-bottom: 40px;
+          grid-template-columns: 1fr; /* 1 column on Phone */
+          gap: 40px;
         }
 
-        .column-title {
-          font-size: 22px;
-          font-weight: 700;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .learn-text { color: #FFD93D; } /* Yellow for Learn */
-        .teach-text { color: #69ff9d; } /* Green for Teach */
-
-        .subject-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
+        @media (min-width: 768px) {
+          .sub-grid { grid-template-columns: 1fr 1fr; } /* 2 columns on Laptop */
         }
 
-        .subject-card {
-          background: rgba(255, 255, 255, 0.95);
-          padding: 18px 25px;
-          border-radius: 16px;
+        .column-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .learn-color { color: #FFD93D; }
+        .teach-color { color: #69ff9d; }
+
+        .card-stack { display: flex; flex-direction: column; gap: 10px; }
+
+        .sub-card {
           display: flex;
           align-items: center;
           gap: 15px;
+          padding: 16px 20px;
+          background: white;
+          border: 2px solid transparent;
+          border-radius: 14px;
           cursor: pointer;
           transition: all 0.2s ease;
-          border: 2px solid transparent;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          text-align: left;
+          width: 100%;
+          -webkit-appearance: none;
         }
 
-        .subject-icon { font-size: 24px; }
-        .subject-name { font-weight: 600; color: #1a1a1a; font-size: 17px; }
+        .sub-icon { font-size: 24px; }
+        .sub-label { font-weight: 600; color: #1a1a1a; font-size: 16px; }
 
-        /* Active State: Learn */
+        /* ACTIVE STATES */
         .active-learn {
           border-color: #FFD93D;
           background: #fffdf2;
-          transform: translateX(10px);
-          box-shadow: 0 8px 24px rgba(255, 217, 61, 0.3);
+          transform: scale(1.02);
+          box-shadow: 0 8px 20px rgba(255, 217, 61, 0.2);
         }
 
-        /* Active State: Teach */
         .active-teach {
           border-color: #4CAF50;
           background: #f2fff4;
-          transform: translateX(-10px);
-          box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+          transform: scale(1.02);
+          box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2);
         }
 
-        .subjects-footer {
+        /* FOOTER BUTTONS */
+        .sub-footer {
+          margin-top: 50px;
           display: flex;
-          justify-content: center;
-          gap: 20px;
-          padding-top: 20px;
+          gap: 15px;
         }
 
         .btn-back {
-          padding: 16px 30px;
+          padding: 16px 25px;
           background: transparent;
           border: 2px solid white;
           color: white;
           border-radius: 12px;
           font-weight: 700;
           cursor: pointer;
-          transition: 0.3s;
         }
 
-        .btn-continue {
-          padding: 16px 60px;
+        .btn-finish {
+          flex: 1;
+          padding: 16px;
           background: white;
           color: #667eea;
           border: none;
           border-radius: 12px;
           font-weight: 800;
-          font-size: 17px;
+          font-size: 16px;
           cursor: pointer;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-          transition: 0.3s;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .btn-continue:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 
-        @media (max-width: 768px) {
-          .selection-grid { grid-template-columns: 1fr; }
-          .active-learn, .active-teach { transform: scale(1.02); }
+        @media (max-width: 480px) {
+          .sub-wrapper { padding: 30px 15px; }
+          .sub-card { padding: 14px 16px; }
         }
       `}</style>
     </div>
