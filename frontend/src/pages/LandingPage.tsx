@@ -638,7 +638,6 @@
 //   );
 // }
 
-
 import { useRef, useState } from 'react';
 import AuthModal from './Authentication';
 
@@ -680,7 +679,6 @@ export default function LandingPage() {
 
           <h1 className="main-title">
             Learn from peers,<br />
-            {/* EXACT STYLE FROM YOUR PREVIOUS CODE */}
             <span style={{ 
               background: "linear-gradient(to right, #FFD93D, #FF6B6B)",
               WebkitBackgroundClip: "text",
@@ -722,64 +720,69 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 2. FEATURES */}
-      <section ref={featuresRef} className="section features-bg anchor-point">
-        <div className="content-container">
-          <h2 className="section-title">Why Choose StudyPal?</h2>
-          <div className="features-grid">
-            {[
-              { icon: "👥", title: "Peer-to-Peer", desc: "Connect with students who understand your struggles." },
-              { icon: "⚡", title: "Instant Help", desc: "No waiting for office hours. Connect and learn immediately." },
-              { icon: "💰", title: "Free to Start", desc: "Build your reputation by helping others succeed." },
-              { icon: "📱", title: "Study Anywhere", desc: "Access on web and mobile easily while on the go." },
-              { icon: "🎯", title: "Subject Specific", desc: "Match with tutors who excel in exactly what you need." },
-              { icon: "🤝", title: "Community", desc: "A supportive environment where everyone succeeds." }
-            ].map((f, i) => (
-              <div key={i} className="feature-card">
-                <div className="feature-icon">{f.icon}</div>
-                <h3 className="card-h3">{f.title}</h3>
-                <p className="card-p">{f.desc}</p>
-              </div>
-            ))}
+      {/* WRAPPER FOR TRANSPARENT SECTIONS */}
+      <div className="sections-container">
+        <div className="bg-pattern-dark" />
+        
+        {/* 2. FEATURES - NOW TRANSPARENT */}
+        <section ref={featuresRef} className="section anchor-point">
+          <div className="content-container">
+            <h2 className="section-title">Why Choose StudyPal?</h2>
+            <div className="features-grid">
+              {[
+                { icon: "👥", title: "Peer-to-Peer", desc: "Connect with students who understand your struggles." },
+                { icon: "⚡", title: "Instant Help", desc: "No waiting for office hours. Connect and learn immediately." },
+                { icon: "💰", title: "Free to Start", desc: "Build your reputation by helping others succeed." },
+                { icon: "📱", title: "Study Anywhere", desc: "Access on web and mobile easily while on the go." },
+                { icon: "🎯", title: "Subject Specific", desc: "Match with tutors who excel in exactly what you need." },
+                { icon: "🤝", title: "Community", desc: "A supportive environment where everyone succeeds." }
+              ].map((f, i) => (
+                <div key={i} className="feature-card">
+                  <div className="feature-icon">{f.icon}</div>
+                  <h3 className="card-h3">{f.title}</h3>
+                  <p className="card-p">{f.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 3. HOW IT WORKS */}
-      <section ref={howItWorksRef} className="section how-bg anchor-point">
-        <div className="content-container">
-          <h2 className="section-title">How It Works</h2>
-          <div className="steps-container">
-            {[
-              { t: "Create Profile", d: "Tell us what you want to learn and what you can teach." },
-              { t: "Find Match", d: "Connect with students based on specific expertise." },
-              { t: "Start Learning", d: "Chat, share resources, and succeed together." }
-            ].map((step, i) => (
-              <div key={i} className="step-card">
-                <div className="step-number-circle">{i + 1}</div>
-                <h3 className="card-h3">{step.t}</h3>
-                <p className="card-p">{step.d}</p>
-              </div>
-            ))}
+        {/* 3. HOW IT WORKS - NOW TRANSPARENT */}
+        <section ref={howItWorksRef} className="section anchor-point">
+          <div className="content-container">
+            <h2 className="section-title">How It Works</h2>
+            <div className="steps-container">
+              {[
+                { t: "Create Profile", d: "Tell us what you want to learn and what you can teach." },
+                { t: "Find Match", d: "Connect with students based on specific expertise." },
+                { t: "Start Learning", d: "Chat, share resources, and succeed together." }
+              ].map((step, i) => (
+                <div key={i} className="step-card">
+                  <div className="step-number-circle">{i + 1}</div>
+                  <h3 className="card-h3">{step.t}</h3>
+                  <p className="card-p">{step.d}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 4. ABOUT */}
-      <section ref={aboutRef} className="section about-bg anchor-point">
-        <div className="content-container about-content">
-          <h2 className="section-title">About StudyPal</h2>
-          <p className="about-text">
-            StudyPal was created by students, for students. We believe that peer-to-peer learning is 
-            more effective, accessible, and human than traditional tutoring.
-          </p>
-          <div className="about-stats-container">
-             <div className="about-stat-box"><strong>24/7</strong><p className="dark-label">Available</p></div>
-             <div className="about-stat-box"><strong>100%</strong><p className="dark-label">Student Run</p></div>
-             <div className="about-stat-box"><strong>Free</strong><p className="dark-label">To Join</p></div>
+        {/* 4. ABOUT - NOW TRANSPARENT */}
+        <section ref={aboutRef} className="section anchor-point">
+          <div className="content-container about-content">
+            <h2 className="section-title">About StudyPal</h2>
+            <p className="about-text">
+              StudyPal was created by students, for students. We believe that peer-to-peer learning is 
+              more effective, accessible, and human than traditional tutoring.
+            </p>
+            <div className="about-stats-container">
+               <div className="about-stat-box"><strong>24/7</strong><p className="dark-label">Available</p></div>
+               <div className="about-stat-box"><strong>100%</strong><p className="dark-label">Student Run</p></div>
+               <div className="about-stat-box"><strong>Free</strong><p className="dark-label">To Join</p></div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <footer className="footer">
         <h2 className="footer-title">Ready to Start Learning?</h2>
@@ -791,14 +794,21 @@ export default function LandingPage() {
       <style>{`
         button, div, span, h2, section { -webkit-tap-highlight-color: transparent; outline: none !important; }
         .anchor-point { scroll-margin-top: 80px; }
-        .app-wrapper { width: 100%; margin: 0; padding: 0; overflow-x: hidden; font-family: system-ui, sans-serif; background: white; }
-        .section { width: 100%; padding: 100px 20px; display: flex; justify-content: center; box-sizing: border-box; }
+        .app-wrapper { width: 100%; margin: 0; padding: 0; overflow-x: hidden; font-family: system-ui, sans-serif; background: #ffffff; }
+        
+        /* Transparent Container Logic */
+        .sections-container { position: relative; background: #ffffff; }
+        .bg-pattern-dark { 
+          position: absolute; 
+          inset: 0; 
+          background-image: radial-gradient(circle at 20px 20px, rgba(0,0,0,0.03) 1px, transparent 0); 
+          background-size: 40px 40px; 
+          z-index: 0;
+        }
+
+        .section { width: 100%; padding: 100px 20px; display: flex; justify-content: center; box-sizing: border-box; position: relative; z-index: 1; background: transparent !important; }
         .content-container { width: 100%; max-width: 1100px; }
         .section-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; text-align: center; margin-bottom: 60px; color: #1a1a1a; }
-
-        .features-bg { background-color: #f8f9fa; }
-        .how-bg { background-color: #ffffff; }
-        .about-bg { background-color: #f8f9fa; }
 
         .hero-section { width: 100%; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px; }
         .bg-pattern { 
@@ -830,20 +840,42 @@ export default function LandingPage() {
         .stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
 
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center; border: 1px solid #f0f0f0; }
+        
+        /* Glassy Feature Cards */
+        .feature-card { 
+          background: rgba(255, 255, 255, 0.7); 
+          backdrop-filter: blur(10px);
+          padding: 40px; 
+          border-radius: 24px; 
+          box-shadow: 0 4px 30px rgba(0,0,0,0.03); 
+          text-align: center; 
+          border: 1px solid rgba(0,0,0,0.05); 
+          transition: transform 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-5px); }
         .card-h3 { color: #1a1a1a; font-size: 24px; font-weight: 700; margin-bottom: 15px; }
-        .card-p { color: #666; line-height: 1.6; }
+        .card-p { color: #555; line-height: 1.6; }
 
         .steps-container { display: flex; gap: 30px; }
         .step-card { flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .step-number-circle { width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 28px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; }
+        .step-number-circle { width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 28px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
 
         .about-text { font-size: 20px; color: #444; line-height: 1.8; text-align: center; max-width: 800px; margin: 0 auto 50px; }
         .about-stats-container { display: flex; gap: 20px; }
-        .about-stat-box { flex: 1; padding: 40px 20px; background: white; border-radius: 24px; border: 1px solid #eee; text-align: center; }
+        
+        .about-stat-box { 
+          flex: 1; 
+          padding: 40px 20px; 
+          background: rgba(255, 255, 255, 0.8); 
+          backdrop-filter: blur(10px);
+          border-radius: 24px; 
+          border: 1px solid rgba(0,0,0,0.05); 
+          text-align: center; 
+          box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+        }
         .about-stat-box strong { font-size: 36px; color: #667eea; display: block; margin-bottom: 10px; }
 
-        .footer { padding: 100px 20px; background: linear-gradient(135deg, #667eea, #764ba2); text-align: center; color: white; }
+        .footer { padding: 100px 20px; background: linear-gradient(135deg, #667eea, #764ba2); text-align: center; color: white; position: relative; z-index: 10; }
         .footer-line { width: 100%; max-width: 600px; height: 1px; background: rgba(255,255,255,0.2); margin: 50px auto; }
 
         @media (max-width: 768px) {
@@ -856,9 +888,11 @@ export default function LandingPage() {
           .steps-container, .about-stats-container { flex-direction: column; }
         }
 
-        .btn-solid { padding: 18px 45px; background: white; color: #667eea; border: none; border-radius: 40px; font-weight: 800; cursor: pointer; }
-        .btn-outline { padding: 18px 45px; background: transparent; color: white; border: 2px solid white; border-radius: 40px; font-weight: 800; cursor: pointer; }
-        .hero-badge { background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; margin-bottom: 20px; font-size: 14px; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-solid { padding: 18px 45px; background: white; color: #667eea; border: none; border-radius: 40px; font-weight: 800; cursor: pointer; transition: transform 0.2s; }
+        .btn-solid:hover { transform: scale(1.05); }
+        .btn-outline { padding: 18px 45px; background: transparent; color: white; border: 2px solid white; border-radius: 40px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .hero-badge { background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 30px; color: white; cursor: pointer; margin-bottom: 20px; font-size: 14px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
         .badge-tag { background: #FF6B6B; padding: 2px 8px; border-radius: 6px; margin-right: 10px; font-size: 12px; font-weight: bold; }
       `}</style>
 
