@@ -279,6 +279,7 @@ export default function Subjects() {
 
   useEffect(() => {
     const temp = localStorage.getItem("tempuser");
+    console.log("Temp User from localStorage:", temp);
     if (!temp) {
       navigate("/");
       return;
@@ -304,8 +305,9 @@ export default function Subjects() {
     if (learnSubjects.length === 0 && teachSubjects.length === 0) {
       return alert("Please select at least one subject.");
     }
+
   if (!tempUser) return;
-    
+    console.log("Creating user with:", tempUser, learnSubjects, teachSubjects);
     const user = await api("/users", {
       method: "POST",
       body: JSON.stringify({
@@ -314,6 +316,7 @@ export default function Subjects() {
         teachSubjects,
       }),
     });
+    console.log("Created User:", user);
     localStorage.setItem("user",JSON.stringify(user))
     localStorage.removeItem("tempuser")
     navigate("/dashboard");

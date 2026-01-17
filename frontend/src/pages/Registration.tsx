@@ -306,6 +306,7 @@ export default function Registration() {
           <label className="input-label">What's your name?</label>
           <input
             ref={inputRef}
+            style={{color:"black"}}
             type="text"
             placeholder="Enter your full name"
             className={`reg-input ${error ? 'input-error' : ''}`}
