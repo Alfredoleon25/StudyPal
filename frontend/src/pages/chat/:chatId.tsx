@@ -1078,16 +1078,7 @@ export default function ChatWindow() {
     }
   };
 
-  if (loading) return (
-    <div className="loader-screen">
-      <div className="loader-circle" />
-      <style>{`
-        .loader-screen { display: flex; height: 100vh; justify-content: center; align-items: center; background: #667eea; }
-        .loader-circle { width: 40px; height: 40px; border: 4px solid #fff; border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      `}</style>
-    </div>
-  );
+  if (loading) return <div className="loader">Loading...</div>;
 
   return (
     <div className="chat-screen">
@@ -1119,69 +1110,73 @@ export default function ChatWindow() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area */}
+        {/* Input - The Fix is here */}
         <form onSubmit={sendMessage} className="chat-form">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message..."
-            className="chat-input"
-          />
-          <button type="submit" className="send-btn">Send</button>
+          <div className="input-wrapper">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type a message..."
+              className="chat-input"
+            />
+            <button type="submit" className="send-btn">Send</button>
+          </div>
         </form>
       </div>
 
       <style>{`
         .chat-screen {
           position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          height: 100dvh;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 100dvh; /* Dynamic viewport height for mobile */
           display: flex;
           justify-content: center;
           align-items: center;
-          font-family: system-ui, -apple-system, sans-serif;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           overflow: hidden;
-          padding: 15px; /* Frame around the card */
-          box-sizing: border-box;
         }
 
         .chat-container {
           display: flex;
           flex-direction: column;
-          background-color: #ffffff;
+          background: #fff;
           width: 100%;
+          height: 100%;
           max-width: 500px;
-          height: 100%; /* Resizes within parent padding */
-          border-radius: 35px; /* High Rounding */
-          box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-          overflow: hidden;
-          position: relative;
+        }
+
+        @media (min-width: 768px) {
+          .chat-container {
+            height: 90vh;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+          }
         }
 
         .chat-header {
-          flex-shrink: 0;
-          padding: 18px 25px;
+          padding: 15px 20px;
           display: flex;
           align-items: center;
-          gap: 12px;
-          border-bottom: 1px solid #f0f0f0;
-          background: #fff;
+          border-bottom: 1px solid #eee;
+          background: white;
         }
 
         .dash-btn {
-          padding: 8px 18px;
-          border-radius: 20px;
+          padding: 6px 12px;
+          border-radius: 15px;
           border: 1px solid #667eea;
-          background: #fff;
+          background: white;
           color: #667eea;
-          font-weight: bold;
-          font-size: 14px;
           cursor: pointer;
+          font-weight: bold;
+          margin-right: 15px;
         }
 
-        .header-name { margin: 0; font-size: 18px; font-weight: 700; color: #333; }
+        .header-name { margin: 0; font-size: 18px; color: #333; }
 
         .message-list {
           flex: 1;
@@ -1189,75 +1184,64 @@ export default function ChatWindow() {
           padding: 20px;
           display: flex;
           flex-direction: column;
-          gap: 14px;
-          background-color: #f8f9fc;
+          gap: 12px;
+          background: #f8f9fc;
         }
 
         .message-row { display: flex; width: 100%; }
         .me { justify-content: flex-end; }
         .them { justify-content: flex-start; }
 
-        /* Bubbles that resize with text amount */
         .bubble {
           max-width: 80%;
-          width: fit-content; /* Key to resizing with text */
-          padding: 12px 18px;
-          border-radius: 24px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-          word-wrap: break-word;
+          padding: 10px 16px;
+          border-radius: 18px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .me .bubble { 
-          background: #667eea; 
-          color: #fff; 
-          border-bottom-right-radius: 4px; 
-        }
-        .them .bubble { 
-          background: #ffffff; 
-          color: #333; 
-          border-bottom-left-radius: 4px; 
-          border: 1px solid #f0f0f0;
-        }
+        .me .bubble { background: #667eea; color: white; border-bottom-right-radius: 4px; }
+        .them .bubble { background: white; color: #333; border-bottom-left-radius: 4px; border: 1px solid #eee; }
 
-        .sender-label { margin: 0 0 4px 0; font-size: 11px; font-weight: bold; color: #764ba2; }
+        .sender-label { font-size: 11px; font-weight: bold; margin-bottom: 4px; opacity: 0.8; }
         .msg-text { margin: 0; font-size: 15px; line-height: 1.4; }
-        .time-text { margin: 6px 0 0 0; font-size: 10px; opacity: 0.5; text-align: right; }
+        .time-text { font-size: 10px; opacity: 0.6; text-align: right; margin-top: 4px; }
 
+        /* Mobile Fix Footer */
         .chat-form {
-          flex-shrink: 0;
-          padding: 20px;
-          padding-bottom: max(20px, env(safe-area-inset-bottom));
+          background: white;
+          border-top: 1px solid #eee;
+          padding: 12px 15px;
+          /* Important: handles iPhone notch/bottom bar */
+          padding-bottom: calc(12px + env(safe-area-inset-bottom)); 
+        }
+
+        .input-wrapper {
           display: flex;
-          gap: 12px;
-          background-color: #fff;
-          border-top: 1px solid #f0f0f0;
+          gap: 10px;
+          align-items: center;
         }
 
         .chat-input {
           flex: 1;
-          padding: 14px 22px;
-          border-radius: 30px;
-          border: 1px solid #e0e0e0;
-          background-color: #ffffff; /* White input background */
-          color: #000000; /* Black text typing */
-          font-size: 16px;
+          padding: 12px 18px;
+          border-radius: 25px;
+          border: 1px solid #ddd;
+          font-size: 16px; /* Prevents auto-zoom on iOS */
           outline: none;
         }
 
         .send-btn {
-          padding: 0 24px;
-          border-radius: 30px;
+          padding: 10px 20px;
           background: #667eea;
           color: white;
           border: none;
+          border-radius: 20px;
           font-weight: bold;
           cursor: pointer;
         }
 
-        @media (max-width: 500px) {
-          .chat-screen { padding: 10px; }
+        @media (max-width: 480px) {
           .btn-text { display: none; }
-          .bubble { max-width: 85%; }
         }
       `}</style>
     </div>
