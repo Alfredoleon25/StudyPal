@@ -256,6 +256,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 const SUBJECTS = [
   { name: "Calculus", icon: "∫" },
@@ -303,8 +304,20 @@ export default function Subjects() {
     if (learnSubjects.length === 0 && teachSubjects.length === 0) {
       return alert("Please select at least one subject.");
     }
-    // Your API logic here...
+  if (!tempUser) return;
+    
+    const user = await api("/users", {
+      method: "POST",
+      body: JSON.stringify({
+        name: tempUser.name,
+        learnSubjects,
+        teachSubjects,
+      }),
+    });
+    localStorage.setItem("user",JSON.stringify(user))
+    localStorage.removeItem("tempuser")
     navigate("/dashboard");
+
   };
 
   if (!tempUser) return null;
