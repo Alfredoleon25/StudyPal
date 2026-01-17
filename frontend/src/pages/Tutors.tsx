@@ -422,14 +422,14 @@ export default function Tutors() {
         /* YELLOW BOX/BUTTON FOR EDIT */
         .edit-yellow-btn {
           background: #fff; /* Golden Yellow */
-          color: #764ba2; /* Dark brown text for contrast */
+          color: #161617ff; /* Dark brown text for contrast */
           border: none;
           padding: 10px 18px;
           border-radius: 10px;
           font-size: 14px;
           font-weight: 800;
           cursor: pointer;
-          box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3);
+    
         }
 
         .tutor-stack { display: flex; flex-direction: column; gap: 16px; }

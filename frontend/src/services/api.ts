@@ -1,6 +1,6 @@
 // const API_URL = "http://localhost:10000";
-const API_URL = "https://studypal-zy0x.onrender.com"
-// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// const API_URL = "https://studypal-zy0x.onrender.com"
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -11,7 +11,7 @@ const supabase = createClient(
 export async function api(path: string, options?: RequestInit) {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
-      console.log("API called with token:", token);
+      // console.log("API called with token:", token);
       const res = await fetch(`${API_URL}${path}`, {
         
         headers: { "Content-Type": "application/json",...(token && { Authorization: `Bearer ${token}` }),},

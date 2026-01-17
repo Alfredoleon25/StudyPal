@@ -431,7 +431,7 @@ export default function LearnerRequests() {
           border-radius: 30px; /* Extra Rounded */
           cursor: pointer;
           box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-          border-left: 6px solid #2196F3; /* Blue highlight for Sent Requests */
+          border-left: 6px solid #fbbf24; /* Blue highlight for Sent Requests */
           transition: transform 0.2s ease;
         }
 
@@ -440,8 +440,8 @@ export default function LearnerRequests() {
         .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
         .subject-pill {
-          background: #e3f2fd;
-          color: #1976d2;
+          background: #fbbf24;
+          color: Black;
           padding: 6px 14px;
           border-radius: 12px;
           font-size: 12px;
@@ -471,7 +471,7 @@ export default function LearnerRequests() {
         .card-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .tutor-label { color: #666; }
         .tutor-label b { color: #222; }
-        .chat-link { color: #2196F3; font-weight: 800; }
+        .chat-link { color: #fbbf24; font-weight: 800; }
 
         @media (max-width: 600px) {
           .header-flex { flex-direction: column; align-items: stretch; text-align: center; }
