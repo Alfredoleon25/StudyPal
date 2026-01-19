@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,12 @@ export default function AuthModal({ onClose }: Props) {
 
     try {
       if (authMode === "signup") {
-        const { data ,error } = await supabase.auth.signUp({ email, password });
+        const { data ,error } = await supabase.auth.signUp({ email, password,options: {
+      data: {
+        onboarding_completed: false // 👈 Initialize the flag
+      }
+    } });
+    console.log("Signup data:", data);
         if(error) throw error;
         if (data.session){
           // localStorage.setItem("supabase_token", data.session.access_token);

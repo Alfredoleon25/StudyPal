@@ -257,6 +257,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { createClient } from "@supabase/supabase-js";
 
 const SUBJECTS = [
   { name: "Calculus", icon: "∫" },
@@ -271,6 +272,11 @@ const SUBJECTS = [
   { name: "Psychology", icon: "🧠" },
 ];
 
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
 export default function Subjects() {
   const [learnSubjects, setLearnSubjects] = useState<string[]>([]);
   const [teachSubjects, setTeachSubjects] = useState<string[]>([]);
@@ -281,7 +287,7 @@ export default function Subjects() {
     const temp = localStorage.getItem("tempuser");
     console.log("Temp User from localStorage:", temp);
     if (!temp) {
-      navigate("/");
+      navigate("/registration",);
       return;
     }
     setTempUser(JSON.parse(temp));
@@ -316,10 +322,17 @@ export default function Subjects() {
         teachSubjects,
       }),
     });
+
+    // 🔐 THE KEY STEP: Update Supabase metadata
+    const { error } = await supabase.auth.updateUser({
+      data: { onboarding_completed: true }
+    });
+console.log("Supabase update error:", error);
+    if (error) throw error;
     console.log("Created User:", user);
     localStorage.setItem("user",JSON.stringify(user))
     localStorage.removeItem("tempuser")
-    navigate("/dashboard");
+    navigate("/dashboard",{ replace: true });
 
   };
 

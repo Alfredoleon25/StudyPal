@@ -20,10 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/my-requests" element={<ProtectedRoute><LearnerRequests /></ProtectedRoute>} />
-        {/* <Route path="/registration" element={<OnboardingRoute><Registration /></OnboardingRoute>} /> */}
-                <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
-        {/* <Route path="/subjects" element={<OnboardingRoute><Subjects /></OnboardingRoute>} /> */}
-                <Route path="/subjects" element={<ProtectedRoute><Subjects /></ProtectedRoute>} />
+        <Route path="/registration" element={<ProtectedRoute onboardingRoute={true}><Registration /></ProtectedRoute>} />
+        <Route path="/subjects" element={<ProtectedRoute onboardingRoute={true}><Subjects /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/edit-subjects" element={<ProtectedRoute><EditSubjects /></ProtectedRoute>} />
         <Route path="/tutors" element={<ProtectedRoute><Tutors /></ProtectedRoute>} />

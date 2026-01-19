@@ -282,7 +282,7 @@ export default function Registration() {
     }
     setError("");
     localStorage.setItem("tempuser", JSON.stringify({ name: name.trim() }));
-    navigate("/subjects");
+    navigate("/subjects", { replace: true });
   };
 
   return (
