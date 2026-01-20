@@ -285,7 +285,6 @@ export default function Subjects() {
 
   useEffect(() => {
     const temp = localStorage.getItem("tempuser");
-    console.log("Temp User from localStorage:", temp);
     if (!temp) {
       navigate("/registration",);
       return;
@@ -313,7 +312,7 @@ export default function Subjects() {
     }
 
   if (!tempUser) return;
-    console.log("Creating user with:", tempUser, learnSubjects, teachSubjects);
+    // console.log("Creating user with:", tempUser, learnSubjects, teachSubjects);
     const user = await api("/users", {
       method: "POST",
       body: JSON.stringify({
@@ -324,12 +323,12 @@ export default function Subjects() {
     });
 
     // 🔐 THE KEY STEP: Update Supabase metadata
-    const { error } = await supabase.auth.updateUser({
+    const { data ,error } = await supabase.auth.updateUser({
       data: { onboarding_completed: true }
     });
-console.log("Supabase update error:", error);
+console.log("Supabase update error:", error, data);
     if (error) throw error;
-    console.log("Created User:", user);
+    // console.log("Created User:", user);
     localStorage.setItem("user",JSON.stringify(user))
     localStorage.removeItem("tempuser")
     navigate("/dashboard",{ replace: true });

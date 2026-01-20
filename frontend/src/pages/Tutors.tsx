@@ -6,6 +6,7 @@
 //   const [tutors, setTutors] = useState<any[]>([]);
 //   // const [user, setUser] = useState<any>(null);
 //   const user = JSON.parse(localStorage.getItem("user") || "null");
+//   console.log("User in Tutors page:", user);
 //   const navigate = useNavigate();
 //   useEffect(() => {
 //     // console.log("fetch the users",user)
@@ -20,6 +21,11 @@
 //     const fetchFilteredTutors = async () => {
 //       try {
 //         const subjectsParam = user.learnSubjects.join(",");
+//         console.log("Fetching tutors for subjects:", subjectsParam);
+//         if (!subjectsParam) {
+//           console.error("No subjects found for user:", user);
+//           return;
+//         }
 //         const response = await api(`/tutors?subjects=${subjectsParam}`);
 //         setTutors(response);
 //       } catch (err) {
@@ -267,6 +273,9 @@ export default function Tutors() {
     const fetchFilteredTutors = async () => {
       try {
         const subjectsParam = user.learnSubjects.join(",");
+        if (!subjectsParam) {
+          return;
+        }
         const response = await api(`/tutors?subjects=${subjectsParam}`);
         setTutors(response);
       } catch (err) {
@@ -338,6 +347,9 @@ export default function Tutors() {
           {tutors.length === 0 ? (
             <div className="empty-state">
               <p>No tutors available right now.</p>
+                 <p style={{ color: "#ccc" }}>
+               Try checking back later or editing your subjects.
+                </p>
             </div>
           ) : (
             tutors.map((tutor) => (

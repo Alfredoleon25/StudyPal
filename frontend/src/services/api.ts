@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const deployed = import.meta.env.VITE_API_URL 
+const API_URL = deployed || "http://localhost:8000";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(

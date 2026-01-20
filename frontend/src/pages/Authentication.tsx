@@ -31,7 +31,6 @@ export default function AuthModal({ onClose }: Props) {
         onboarding_completed: false // 👈 Initialize the flag
       }
     } });
-    console.log("Signup data:", data);
         if(error) throw error;
         if (data.session){
           // localStorage.setItem("supabase_token", data.session.access_token);
