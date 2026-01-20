@@ -271,7 +271,7 @@
 
 
 import { useState, useEffect } from "react";
-// import { api } from "../services/api";
+import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const SUBJECTS = [
@@ -326,15 +326,28 @@ export default function EditSubjects() {
     }
     setLoading(true);
     try {
-      // Simulate API Call
+  
       // const response = await api(`/users/${user.id}`, { method: "PATCH", ... });
-      const updatedUser = { ...user, learnSubjects, teachSubjects };
+            const response = await api(`/users/${user.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ 
+          learnSubjects, 
+          teachSubjects 
+        }),
+      });
+
+      const updatedUser = await response;
+      // console.log("User updated:", updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
+      // navigate("/dashboard");
+      // const updatedUser = { ...user, learnSubjects, teachSubjects };
+      // localStorage.setItem("user", JSON.stringify(updatedUser));
       setTimeout(() => {
         setLoading(false);
         navigate("/dashboard");
       }, 800);
-    } catch (error) {
+    } 
+    catch (error) {
       setLoading(false);
       alert("Failed to update subjects");
     }
