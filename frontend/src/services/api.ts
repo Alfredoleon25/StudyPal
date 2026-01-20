@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function api(path: string, options?: RequestInit) {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
-      console.log("API called with token:", token);
+      // console.log("API called with token:", token);
       const res = await fetch(`${API_URL}${path}`, {
         
         headers: { "Content-Type": "application/json",...(token && { Authorization: `Bearer ${token}` }),},
